@@ -1,0 +1,23 @@
+{
+  "name": "confluent-drawings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArpanMangal/CD_NetworkVisualization.git"
+  },
+  "author": "Arpan Mangal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArpanMangal/CD_NetworkVisualization/issues"
+  },
+  "homepage": "https://github.com/ArpanMangal/CD_NetworkVisualization#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
