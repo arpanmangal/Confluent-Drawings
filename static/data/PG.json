@@ -1,0 +1,24 @@
+{
+    "nodes": [
+      {"id": "s"},
+      {"id": "t"},
+      {"id": "u"},
+      {"id": "v"},
+      {"id": "w"},
+      {"id": "y"},
+      {"id": "x"},
+      {"id": "z"}
+    ],
+    "modules": [
+        {"id": "A", "elements": {"nodes": ["u", "t", "s"], "modules": [] }},
+        {"id": "B", "elements": {"nodes": ["v"], "modules": ["A"]}},
+        {"id": "C", "elements": {"nodes": ["x", "y", "z"], "modules": []}}
+    ],
+    "links": [
+      {"source": "v", "target": "u"},
+      {"source": "A", "target": "w"},
+      {"source": "w", "target": "y"},
+      {"source": "x", "target": "z"},
+      {"source": "A", "target": "C"}
+    ]
+  }
