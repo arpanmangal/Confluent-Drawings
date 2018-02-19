@@ -6,7 +6,7 @@ var svg = d3.select("svg"),
     height = +svg.attr("height");
 
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) { return d.id; }))
+    .force("linkAbs", d3.forceLink().id(function (d) {return d.id; }))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -86,14 +86,22 @@ function graphToRoutingGraphCD(graph, cb) {
     };
 
     // everything done
-    // console.log(confluentGraph);
+    console.log(confluentGraph);
     cb(confluentGraph);
 }
 
 function drawConfluentDrawing(graph) {
     // draw the routing graph
     console.log(graph);
-    var line = d3.line();
+
+    // creating the mapping between index and id in graph.nodes
+    var mapping = {};
+    graph.nodes.forEach (function (node, i) {
+        mapping[node.id] = i;
+    });
+    console.log(mapping);
+
+    // var line = d3.line();
     // .curve(d3.curveBasis)
     // .x(function (d) {console.log(d);return d.x})
     // .y(function (d) {return d.y})
@@ -117,55 +125,65 @@ function drawConfluentDrawing(graph) {
     //     .each (function (d) {d.source = d[0], d.taget = d[d.length - 1]})
     //     .attr("d", line);
 
-    var link = svg.append("g")
+    var linkArpan = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
 
 
-    var node = svg.append("g")
+    var nodeArpan = svg.append("g")
         .attr("class", "nodes")
         .selectAll("circle")
         .data(graph.nodes)
         .enter().append("circle")
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
-        .attr("r", 4.5)
+        .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
 
     var curvedLine = d3.line()
-        .curve(d3.curveBasis)
-        .x(function (d) { return d.x })
-        .y(function (d) { return d.y });
+        .curve(d3.curveBasis);
+        // .x(function (d) { return d.x })
+        // .y(function (d) { return d.y });
 
-    setTimeout(function () {
-        console.log('hi');
+    var confArpan = svg.append("g")
+        .attr("class", "confs")
+        .selectAll("path")
+        .data(graph.confLinks)
+        // .data(points)
+        .enter().append("path")
+        // .attr("d", pathData)
+        // .attr("stroke", "green")
+        // .attr("fill", "none")
+        // .attr("stroke-width", "1px");
+    // setTimeout(function () {
+    //     console.log('hi');
 
-        console.log(graph.nodes);
-        var points = [
-            { x: graph.nodes[2].x, y: graph.nodes[2].y },
-            { x: graph.nodes[8].x, y: graph.nodes[8].y },
-            { x: graph.nodes[9].x, y: graph.nodes[9].y },
-            { x: graph.nodes[3].x, y: graph.nodes[3].y }
-        ];
+    //     console.log(graph.nodes);
+    //     var points = [
+    //       7  { x: graph.nodes[2].x, y: graph.nodes[2].y },
+    //         { x: graph.nodes[8].x, y: graph.nodes[8].y },
+    //         { x: graph.nodes[9].x, y: graph.nodes[9].y },
+    //         { x: graph.nodes[3].x, y: graph.nodes[3].y }
+    //     ];
 
-        var pathData = curvedLine(points);
-        console.log(pathData);
-        var test = svg.append("g")
-            .selectAll("path")
-            .data([1])
-            // .data(points)
-            .enter().append("path")
-            .attr("d", pathData)
-            .attr("stroke", "green")
-            .attr("fill", "none")
-            .attr("stroke-width", "1px");
+    //     var pathData = curvedLine(points);
+    //     console.log(pathData);
+    //     var test = svg.append("g")
+    //         .selectAll("path")
+    //         .data([1])
+    //         // .data(points)
+    //         .enter().append("path")
+    //         .attr("d", pathData)
+    //         .attr("stroke", "green")
+    //         .attr("fill", "none")
+    //         .attr("stroke-width", "1px");
 
-        console.log(graph.nodes);
-    }, 2000);
+    //     console.log(graph.nodes);
+    // }, 2000);
 
     // var link = svg.append("g")
     //     .attr("class", "links")
@@ -175,48 +193,57 @@ function drawConfluentDrawing(graph) {
     //     .each (function (d) {d.source = d[0], d.taget = d[d.length - 1]})
     //     .attr("d", line);
 
-    node.append("title")
+    nodeArpan.append("title")
         .text(function (d) { return d.id; });
 
     simulation
         .nodes(graph.nodes)
         .on("tick", ticked);
 
-    simulation.force("link")
+    simulation.force("linkAbs")
         .links(graph.links);
 
     function ticked() {
-        link
+        confArpan
+            .attr("d", function (d) {
+                var points = [];
+                d.forEach(function (node) {
+                    points.push([graph.nodes[mapping[node]].x, [graph.nodes[mapping[node]].y]]);
+                });
+                return curvedLine(points);
+            })
+
+        linkArpan
             .attr("x1", function (d) { return d.source.x; })
             .attr("y1", function (d) { return d.source.y; })
             .attr("x2", function (d) { return d.target.x; })
             .attr("y2", function (d) { return d.target.y; });
 
-        node
+        nodeArpan
             .attr("cx", function (d) { return d.x; })
             .attr("cy", function (d) { return d.y; });
     }
 }
 
 // Return the links in the form of the shortest path from one actual node to another
-function packageImports(nodes) {
-    var map = {},
-        imports = [];
+// function packageImports(nodes) {
+//     var map = {},
+//         imports = [];
 
-    // Compute a map from name to node.
-    nodes.forEach(function (d) {
-        map[d.data.name] = d;
-    });
+//     // Compute a map from name to node.
+//     nodes.forEach(function (d) {
+//         map[d.data.name] = d;
+//     });
 
-    // For each import, construct a link from the source to target node.
-    nodes.forEach(function (d) {
-        if (d.data.imports) d.data.imports.forEach(function (i) {
-            imports.push(map[d.data.name].path(map[i]));
-        });
-    });
+//     // For each import, construct a link from the source to target node.
+//     nodes.forEach(function (d) {
+//         if (d.data.imports) d.data.imports.forEach(function (i) {
+//             imports.push(map[d.data.name].path(map[i]));
+//         });
+//     });
 
-    return imports;
-}
+//     return imports;
+// }
 
 function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();

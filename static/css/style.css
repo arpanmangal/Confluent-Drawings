@@ -1,5 +1,12 @@
 .links line {
     stroke: red;
+    stroke-width: 0px;
+}
+
+.confs path {
+    stroke: green;
+    fill: none;
+    stroke-width: 1px;
 }
 
 .nodes circle {
