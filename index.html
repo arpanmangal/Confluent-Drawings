@@ -3,7 +3,8 @@
 
 <head>
     <title> Confluent Drawings </title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css"></style>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </style>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -13,13 +14,45 @@
     <h1> Confluent Drawings </h1>
 
     <!-- Container for Confluent Drawings -->
-    <svg width="460" height="300"></svg>
+    <div>
+        <svg width="460" height="300" id="routing" style="float: left;"></svg>
+        <!-- <svg width="460" height="300" id="ConfDrawing" style="float: left;"></svg> -->
+    </div>
+
 
     <!-- Load our JS -->
-    <script src="/js/CD.js"></script>
+    <script src="/js/graph.js"></script>
+    <script src="/js/dijkstra.js"></script>
+    <script>
+        var links = [
+            { "source": "1", "target": "2" },
+            { "source": "1", "target": "3" },
+            { "source": "1", "target": "4" },
+            { "source": "1", "target": "6" },
+            { "source": "1", "target": "7" },
+            { "source": "2", "target": "3" },
+            { "source": "2", "target": "4" },
+            { "source": "2", "target": "6" },
+            { "source": "2", "target": "7" },
+            { "source": "3", "target": "4" },
+            { "source": "3", "target": "6" },
+            { "source": "3", "target": "7" },
+            { "source": "4", "target": "5" },
+            { "source": "4", "target": "6" },
+            { "source": "4", "target": "7" }
+        ];
+        (dijkstra (links, "1", "2"));
+    </script>
+    <!-- <script src="/js/cd.js"></script> -->
+    <!-- <script> genRoutingGraph("data/PG2.json"); </script> -->
+
+    <!-- <script src="/js/CD1.js"></script>
 
     <!-- Generate Routing Graph -->
-    <script> genRoutingGraph ("data/PG2.json"); </script>
+    <!-- <script> setTimeout(function () {
+            genConfDrawings("data/PG2.json");
+        }, 2000);
+    </script> -->
 </body>
 
 </html>
