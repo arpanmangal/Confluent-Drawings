@@ -10,7 +10,7 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-function genConfluentDrawing (pathToJsonFile) {
+function genConfluentDrawing(pathToJsonFile) {
     console.log("inside genConfluentDrawing");
     d3.json(pathToJsonFile, function (error, graph) {
         if (error) throw error;
@@ -70,29 +70,33 @@ function graphToRoutingGraphCD(graph, cb) {
     // Actual Edges (without the routing node)
     actualEdges = graph.nodeLinks;
 
-    var dijkstra_graph = make_graph (routingEdges);
+    var dijkstra_graph = make_graph(routingEdges);
 
     var confluentEdges = [];
 
     // for each actual edge find the shortest path in the routing graph and render it as a curve later
-    actualEdges.forEach (function (edge) {
-        confluentEdges.push (dijkstra (dijkstra_graph, edge.source, edge.target));
+    actualEdges.forEach(function (edge) {
+        confluentEdges.push(dijkstra(dijkstra_graph, edge.source, edge.target));
     });
 
     var confluentGraph = {
         "nodes": routingNodes,
-        "links": confluentEdges
+        "links": routingEdges,
+        "confLinks": confluentEdges
     };
 
     // everything done
-    console.log(confluentGraph);
-    // cb(confluentGraph);
+    // console.log(confluentGraph);
+    cb(confluentGraph);
 }
 
-function drawConfluentDrawing (graph) {
+function drawConfluentDrawing(graph) {
     // draw the routing graph
     console.log(graph);
     var line = d3.line();
+    // .curve(d3.curveBasis)
+    // .x(function (d) {console.log(d);return d.x})
+    // .y(function (d) {return d.y})
     // .curve(d3.curveBundle.beta(0.85))
     // .radius(function (d) { return d.y; })
     // .angle(function (d) { return d.x });
@@ -105,11 +109,20 @@ function drawConfluentDrawing (graph) {
     //     .attr("class", "links")
     //     .attr("d", line);
 
+    // var link = svg.append("g")
+    //     .attr("class", "links")
+    //     .selectAll("line")
+    //     .data(graph.links)
+    //     .enter().append("path")
+    //     .each (function (d) {d.source = d[0], d.taget = d[d.length - 1]})
+    //     .attr("d", line);
+
     var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
+
 
     var node = svg.append("g")
         .attr("class", "nodes")
@@ -122,6 +135,45 @@ function drawConfluentDrawing (graph) {
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
+
+    var curvedLine = d3.line()
+        .curve(d3.curveBasis)
+        .x(function (d) { return d.x })
+        .y(function (d) { return d.y });
+
+    setTimeout(function () {
+        console.log('hi');
+
+        console.log(graph.nodes);
+        var points = [
+            { x: graph.nodes[2].x, y: graph.nodes[2].y },
+            { x: graph.nodes[8].x, y: graph.nodes[8].y },
+            { x: graph.nodes[9].x, y: graph.nodes[9].y },
+            { x: graph.nodes[3].x, y: graph.nodes[3].y }
+        ];
+
+        var pathData = curvedLine(points);
+        console.log(pathData);
+        var test = svg.append("g")
+            .selectAll("path")
+            .data([1])
+            // .data(points)
+            .enter().append("path")
+            .attr("d", pathData)
+            .attr("stroke", "green")
+            .attr("fill", "none")
+            .attr("stroke-width", "1px");
+
+        console.log(graph.nodes);
+    }, 2000);
+
+    // var link = svg.append("g")
+    //     .attr("class", "links")
+    //     .selectAll("line")
+    //     .data(graph.links)
+    //     .enter().append("path")
+    //     .each (function (d) {d.source = d[0], d.taget = d[d.length - 1]})
+    //     .attr("d", line);
 
     node.append("title")
         .text(function (d) { return d.id; });
