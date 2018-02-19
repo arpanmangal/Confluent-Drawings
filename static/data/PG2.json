@@ -1,0 +1,24 @@
+{
+    "nodes": [
+      {"id": "1"},
+      {"id": "2"},
+      {"id": "3"},
+      {"id": "4"},
+      {"id": "5"},
+      {"id": "6"},
+      {"id": "7"}
+    ],
+    "modules": [
+        {"id": "A", "elements": {"nodes": ["1", "2"], "modules": [] }},
+        {"id": "B", "elements": {"nodes": ["3"], "modules": ["A"]}},
+        {"id": "C", "elements": {"nodes": ["4"], "modules": ["D"]}},
+        {"id": "D", "elements": {"nodes": ["6", "7"], "modules": []}}
+    ],
+    "links": [
+      {"source": "1", "target": "2"},
+      {"source": "A", "target": "3"},
+      {"source": "B", "target": "C"},
+      {"source": "4", "target": "5"},
+      {"source": "4", "target": "D"}
+    ]
+  }
