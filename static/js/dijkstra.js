@@ -1,6 +1,6 @@
 // Uses graph.js, an implementation of dijkstra's to compute the shortest path between the two nodes
 
-function dijkstra (links, node1, node2) {
+function make_graph (links) {
     
     var map = {};
 
@@ -13,8 +13,9 @@ function dijkstra (links, node1, node2) {
         (map[t])[s] = 1;
     });
 
-    var graph = new Graph (map);
+    return new Graph (map);
+}
 
-    console.log(graph);
-    console.log(graph.findShortestPath(node1, node2));
+function dijkstra (graph, node1, node2) {
+    return graph.findShortestPath (node1, node2);
 }
