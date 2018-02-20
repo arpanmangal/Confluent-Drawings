@@ -15,44 +15,31 @@
 
     <!-- Container for Confluent Drawings -->
     <div>
-        <svg width="460" height="900" id="routing" style="float: left;"></svg>
-        <!-- <svg width="460" height="300" id="ConfDrawing" style="float: left;"></svg> -->
+        <div style="width:100%">
+            <!-- routing graph -->
+            <svg width="460" height="300" id="routingGraph" style="float: left;"></svg>
+            <!-- ConfluentDrawing -->
+            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
+        </div>
+        <div style="width:100%">
+            <!-- Splitted routing Graph -->
+            <!-- <svg width="460" height="300" id="routingGraph" style="float: left;"></svg> -->
+
+            <!-- Final Confluent Drawing -->
+        </div>
     </div>
 
 
     <!-- Load our JS -->
     <script src="/js/graph.js"></script>
     <script src="/js/dijkstra.js"></script>
-    <script>
-        var links = [
-            { "source": "1", "target": "2" },
-            { "source": "1", "target": "3" },
-            { "source": "1", "target": "4" },
-            { "source": "1", "target": "6" },
-            { "source": "1", "target": "7" },
-            { "source": "2", "target": "3" },
-            { "source": "2", "target": "4" },
-            { "source": "2", "target": "6" },
-            { "source": "2", "target": "7" },
-            { "source": "3", "target": "4" },
-            { "source": "3", "target": "6" },
-            { "source": "3", "target": "7" },
-            { "source": "4", "target": "5" },
-            { "source": "4", "target": "6" },
-            { "source": "4", "target": "7" }
-        ];
-        // (dijkstra (links, "1", "2"));
-    </script>
-    <script src="/js/cd.js"></script>
+
+    <!-- JS for confluent drawings -->
+    <script src="/js/routingSplit.js"></script>
+    <script src="/js/confDrawingCross.js"></script>
+    <script> genRoutingGraphSplit ("data/PG2.json"); </script>
     <script> genConfluentDrawing("data/PG2.json"); </script>
 
-    <!-- <script src="/js/CD1.js"></script>
-
-    <!-- Generate Routing Graph -->
-    <!-- <script> setTimeout(function () {
-            genConfDrawings("data/PG2.json");
-        }, 2000);
-    </script> -->
 </body>
 
 </html>

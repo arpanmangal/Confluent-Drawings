@@ -1,5 +1,10 @@
 .links line {
     stroke: red;
+    stroke-width: 1px;
+}
+
+.invisible {
+    stroke: red;
     stroke-width: 0px;
 }
 

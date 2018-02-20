@@ -8,20 +8,7 @@
       {"id": "6"},
       {"id": "7"}
     ],
-    "modules": [
-        {"id": "A", "elements": {"nodes": ["1", "2"], "modules": [] }},
-        {"id": "B", "elements": {"nodes": ["3"], "modules": ["A"]}},
-        {"id": "C", "elements": {"nodes": ["4"], "modules": ["D"]}},
-        {"id": "D", "elements": {"nodes": ["6", "7"], "modules": []}}
-    ],
     "links": [
-      {"source": "1", "target": "2"},
-      {"source": "A", "target": "3"},
-      {"source": "B", "target": "C"},
-      {"source": "4", "target": "5"},
-      {"source": "4", "target": "D"}
-    ],
-    "nodeLinks": [
       {"source": "1", "target": "2"},
       {"source": "1", "target": "3"},
       {"source": "1", "target": "4"},
@@ -37,5 +24,18 @@
       {"source": "4", "target": "5"},
       {"source": "4", "target": "6"},
       {"source": "4", "target": "7"}
+    ],
+    "PGmodules": [
+        {"id": "A", "elements": {"nodes": ["1", "2"], "modules": [] }},
+        {"id": "B", "elements": {"nodes": ["3"], "modules": ["A"]}},
+        {"id": "C", "elements": {"nodes": ["4"], "modules": ["D"]}},
+        {"id": "D", "elements": {"nodes": ["6", "7"], "modules": []}}
+    ],
+    "PGlinks": [
+      {"source": "1", "target": "2"},
+      {"source": "A", "target": "3"},
+      {"source": "B", "target": "C"},
+      {"source": "4", "target": "5"},
+      {"source": "4", "target": "D"}
     ]
   }

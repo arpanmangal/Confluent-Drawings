@@ -1,14 +1,14 @@
 // JS file containing code for generating confluent drawings
 
 
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+var svgRoute = d3.select("#routingGraph"),
+    widthRoute = +svgRoute.attr("width"),
+    heightRoute = +svgRoute.attr("height");
 
-var simulation = d3.forceSimulation()
+var simulationRoute = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id; }))
     .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+    .force("center", d3.forceCenter(widthRoute / 2, heightRoute / 2));
 
 function genRoutingGraph (pathToJsonFile) {
     console.log("inside genRouting");
@@ -23,7 +23,6 @@ function genRoutingGraph (pathToJsonFile) {
 function graphToRoutingGraph(graph, cb) {
     var routingGraph = {};
 
-    console.log(graph);
     // Push the nodes
     routingGraph.nodes = graph.nodes;
     // mark each node as not routingNode
@@ -32,7 +31,7 @@ function graphToRoutingGraph(graph, cb) {
     });
     // console.log(graph.modules);
 
-    graph.modules.forEach(function (elem) {
+    graph.PGmodules.forEach(function (elem) {
         routingGraph.nodes.push({
             "id": elem.id,
             "isRouting": true
@@ -40,8 +39,8 @@ function graphToRoutingGraph(graph, cb) {
     });
 
     // Push the edges
-    routingGraph.links = graph.links;
-    graph.modules.forEach(function (elem) {
+    routingGraph.links = graph.PGlinks;
+    graph.PGmodules.forEach(function (elem) {
         // console.log(elem);
         var elemNodes = elem.elements.nodes;
         var elemModules = elem.elements.modules;
@@ -65,6 +64,21 @@ function graphToRoutingGraph(graph, cb) {
 
     });
 
+    var reverseEdges = [];
+    routingGraph.links.forEach (function (link) {
+        reverseEdges.push({
+            "source": link.source,
+            "target": link.target
+        });
+    });
+    reverseEdges.forEach (function (edge) {
+        routingGraph.links.push(edge);
+    });
+
+    // routingGraph.links.push({
+    //     "source": "ran",
+    //     "target": "na"
+    // })
     // everything done
     cb(routingGraph);
 }
@@ -77,7 +91,7 @@ function drawRoutingGraph(graph) {
         .radius(function (d) { return d.y; })
         .angle(function (d) { return d.x });
 
-    // var link = svg.append("g").selectAll(".links");
+    // var link = svgRoute.append("g").selectAll(".links");
     // link = link
     //     .data(graph.links)
     //     .enter().append("path")
@@ -85,13 +99,13 @@ function drawRoutingGraph(graph) {
     //     .attr("class", "links")
     //     .attr("d", line);
 
-    var link = svg.append("g")
+    var link = svgRoute.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
 
-    var node = svg.append("g")
+    var node = svgRoute.append("g")
         .attr("class", "nodes")
         .selectAll("circle")
         .data(graph.nodes)
@@ -99,18 +113,18 @@ function drawRoutingGraph(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", 4.5)
         .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
+            .on("start", dragstartedRoute)
+            .on("drag", draggedRoute)
+            .on("end", dragendedRoute));
 
     node.append("title")
         .text(function (d) { return d.id; });
 
-    simulation
+    simulationRoute
         .nodes(graph.nodes)
         .on("tick", ticked);
 
-    simulation.force("link")
+    simulationRoute.force("link")
         .links(graph.links);
 
     function ticked() {
@@ -126,19 +140,19 @@ function drawRoutingGraph(graph) {
     }
 }
 
-function dragstarted(d) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+function dragstartedRoute(d) {
+    if (!d3.event.active) simulationRoute.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function dragged(d) {
+function draggedRoute(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragended(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
+function dragendedRoute(d) {
+    if (!d3.event.active) simulationRoute.alphaTarget(0);
     d.fx = null;
     d.fy = null;
 }
