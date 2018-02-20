@@ -45,9 +45,9 @@ function drawConfluentDrawingCross(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
         .call(d3.drag()
-            .on("start", dragstartedConf)
-            .on("drag", draggedConf)
-            .on("end", dragendedConf));
+            .on("start", dragstartedConfCross)
+            .on("drag", draggedConfCross)
+            .on("end", dragendedConfCross));
 
     var curvedLine = d3.line()
         .curve(d3.curveBasis);
@@ -90,19 +90,19 @@ function drawConfluentDrawingCross(graph) {
     }
 }
 
-function dragstartedConf(d) {
-    if (!d3.event.active) simulationConf.alphaTarget(0.3).restart();
+function dragstartedConfCross(d) {
+    if (!d3.event.active) simulationConfCross.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function draggedConf(d) {
+function draggedConfCross(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragendedConf(d) {
-    if (!d3.event.active) simulationConf.alphaTarget(0);
+function dragendedConfCross(d) {
+    if (!d3.event.active) simulationConfCross.alphaTarget(0);
     d.fx = null;
     d.fy = null;
 }

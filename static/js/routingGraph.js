@@ -42,9 +42,9 @@ function drawRoutingGraph(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", 4.5)
         .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
+            .on("start", dragstartedRoute)
+            .on("drag", draggedRoute)
+            .on("end", dragendedRoute));
 
     node.append("title")
         .text(function (d) { return d.id; });
@@ -69,18 +69,18 @@ function drawRoutingGraph(graph) {
     }
 }
 
-function dragstarted(d) {
+function dragstartedRoute(d) {
     if (!d3.event.active) simulationRoute.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function dragged(d) {
+function draggedRoute(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragended(d) {
+function dragendedRoute(d) {
     if (!d3.event.active) simulationRoute.alphaTarget(0);
     d.fx = null;
     d.fy = null;

@@ -16,6 +16,7 @@
     <!-- Container for Confluent Drawings -->
     <div style="width:100%">
         <div style="width:100%; float: top">
+            <svg width="460" height="300" id="node-link-graph" style="float: left;"></svg>
             <!-- routing graph -->
             <svg width="460" height="300" id="routingGraph" style="float: left;"></svg>
             <!-- ConfluentDrawing -->
@@ -42,14 +43,15 @@
     <!-- JS for confluent drawings -->
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
+    <script src="/js/nodeLink.js"></script>
     <script src="/js/routingGraph.js"></script>
     <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
     <script src="/js/confDrawing.js"></script>
-    <script> genRoutingGraph("data/PG2.json"); </script>
-    <script> genRoutingGraphSplit("data/PG2.json"); </script>
-    <script> genConfluentDrawingCross("data/PG2.json"); </script>
-    <script> genConfluentDrawing("data/PG2.json"); </script>
+    <script> genRoutingGraph("data/PG6.json"); </script>
+    <script> genRoutingGraphSplit("data/PG6.json"); </script>
+    <script> genConfluentDrawingCross("data/PG6.json"); </script>
+    <script> genConfluentDrawing("data/PG6.json"); </script>
 
 </body>
 

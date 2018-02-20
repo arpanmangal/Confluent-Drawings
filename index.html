@@ -1,1 +1,95 @@
-<a href='/confluentDrawing?PG=34'>click me</a>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Confluent Graphs </title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </style>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center; color:brown;"> Confluent Graphs </h1>
+    <div style="width:1000px; margin:0 auto;">
+        <p>This is the implementation of the paper
+            <a href="http://aviz.fr/~bbach/confluentgraphs/Bach2016confluentgraphs.pdf" target="_blank">"Towards Unambiguous Edge Bundling: Investigating Confluent Drawings for Network Visualization".</a>
+            The source code for this implementation can be found on github
+            <a href="https://github.com/ArpanMangal/CD_NetworkVisualization" target="_blank">here</a>.</p>
+    </div>
+
+    <div style="width:1000px; margin:0 auto;">
+
+        <p> We implement the main algorithm of the paper as detailed in Sections 3.1 and 3.2 . This mainly consists of the following
+            steps:
+        </p>
+        <ol>
+            <li>
+                We will be given graph data on nodes and links. It will generate a graph as in the following image. As we can see there is
+                a lot of clutter in this "node-link" diagram. This clutter will make complex graphs unreadable. Confluent
+                Graphs are a way to bundle edges to reduce this clutter.
+            </li>
+            <li style="list-style-type: none">
+                <img src="/img/graph.png" />
+            </li>
+            <li value=2>From the given nodes and links we construct a Power Graph (PG) Decomposition. This decomposition could be done
+                using algorithms like the beam-search algorithm. We currently assume that this Power Graph Decomposition
+                is given to us and build on top of it.
+            </li>
+            <li style="list-style-type: none">
+                <img src="/img/PowerGraph.png" />
+            </li>
+            <li value=3>From this Power Graph we make a routing graph as detailed in the paper.
+            </li>
+            <li style="list-style-type: none">
+                <svg width="460" height="250" id="routingGraph" style="float: left;"></svg>
+            </li>
+
+        </ol>
+    </div>
+
+
+
+    <!-- Container for Confluent Drawings -->
+    <div style="width:100%">
+        <div style="width:100%; float: top">
+            <svg width="460" height="300" id="node-link-graph" style="float: left;"></svg>
+            <!-- routing graph -->
+            <!-- ConfluentDrawing -->
+            <svg width="460" height="100" id="ConfDrawingCross" style="float: right;"></svg>
+        </div>
+        <div style="width:100%; float: bottom">
+            <!-- Splitted routing Graph -->
+            <svg width="460" height="300" id="routingGraphSplit" style="float: left;"></svg>
+            <!-- Final Confluent Drawing -->
+            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
+        </div>
+    </div>
+
+    <script> 
+        // var qs = new Querystring();
+        var qs = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length).substr(4);
+        // var v1 = qs.get("myVar");
+        console.log(parseInt(qs));
+    </script>
+    <!-- Load our JS -->
+    <script src="/js/graph.js"></script>
+    <script src="/js/dijkstra.js"></script>
+
+    <!-- JS for confluent drawings -->
+    <script src="/js/routing.js"></script>
+    <script src="/js/confluentDrawing.js"></script>
+    <script src="/js/nodeLink.js"></script>
+    <script src="/js/routingGraph.js"></script>
+    <script src="/js/routingSplit.js"></script>
+    <script src="/js/confDrawingCross.js"></script>
+    <script src="/js/confDrawing.js"></script>
+    <script> genRoutingGraph("data/PG1.json"); </script>
+    <script> genRoutingGraphSplit("data/PG1.json"); </script>
+    <script> genConfluentDrawingCross("data/PG1.json"); </script>
+    <script> genConfluentDrawing("data/PG1.json"); </script>
+
+</body>
+
+</html>
