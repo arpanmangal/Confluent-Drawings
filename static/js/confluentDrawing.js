@@ -1,45 +1,10 @@
 function routingToConfGraph (graph) {
 
-    // Push the nodes
+    // Nodes
     routingNodes = graph.nodes;
 
-    // mark each node as not routingNode
-    // routingNodes.forEach(function (elem) {
-    //     elem.isRouting = false;
-    // });
-
-    // // Add the 'modules' nodes
-    // graph.PGmodules.forEach(function (elem) {
-    //     routingNodes.push({
-    //         "id": elem.id,
-    //         "isRouting": true
-    //     }); // Each module is a routing node
-    // });
-
-    // Push the edges
+    // Edges
     routingEdges = graph.links;
-
-    // graph.PGmodules.forEach(function (elem) {
-    //     var elemNodes = elem.elements.nodes;
-    //     var elemModules = elem.elements.modules;
-
-    //     // Edges from current module to child nodes
-    //     elemNodes.forEach(function (e) {
-    //         routingEdges.push({
-    //             "source": elem.id,
-    //             "target": e
-    //         });
-    //     });
-
-    //     // Edges from current module to child modules
-    //     elemModules.forEach(function (e) {
-    //         routingEdges.push({
-    //             "source": elem.id,
-    //             "target": e
-    //         });
-    //     });
-
-    // });
 
     // Actual Edges (without the routing node)
     actualEdges = graph.actualLinks;
@@ -61,5 +26,4 @@ function routingToConfGraph (graph) {
 
     // everything done
     return confluentGraph;
-    // cb(confluentGraph);
 }

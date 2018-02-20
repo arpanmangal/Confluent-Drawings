@@ -11,7 +11,6 @@ var simulationRoute = d3.forceSimulation()
     .force("center", d3.forceCenter(widthRoute / 2, heightRoute / 2));
 
 function genRoutingGraph (pathToJsonFile) {
-    console.log("inside genRouting");
     d3.json(pathToJsonFile, function (error, graph) {
         if (error) throw error;
     
@@ -24,19 +23,10 @@ function genRoutingGraph (pathToJsonFile) {
 
 function drawRoutingGraph(graph) {
     // draw the routing graph
-    console.log(graph);
     var line = d3.radialLine()
         .curve(d3.curveBundle.beta(0.85))
         .radius(function (d) { return d.y; })
         .angle(function (d) { return d.x });
-
-    // var link = svgRoute.append("g").selectAll(".links");
-    // link = link
-    //     .data(graph.links)
-    //     .enter().append("path")
-    //     .each(function (d) { d.source = d[0], d.target = d[d.length - 1]; })
-    //     .attr("class", "links")
-    //     .attr("d", line);
 
     var link = svgRoute.append("g")
         .attr("class", "links")

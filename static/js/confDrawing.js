@@ -119,8 +119,6 @@ function drawConfluentDrawing(graph) {
 
     var curvedLine = d3.line()
         .curve(d3.curveBasis);
-        // .x(function (d) { return d.x })
-        // .y(function (d) { return d.y });
 
     var curvedLink = svgConf.append("g")
         .attr("class", "confs")

@@ -11,5 +11,8 @@ app.use(express.static('static'));
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
+app.get('/confluentDrawing', function (req, res) {
+    res.sendFile(__dirname + '/generateConfDrawings.html');
+});
 
 app.listen(PORT, console.log("The App is running on PORT: " + PORT +". Visit http://localhost:"+PORT+"/"));

@@ -10,7 +10,6 @@ function graphToRoutingGraph(graph, cb) {
     routingGraph.nodes.forEach(function (elem) {
         elem.isRouting = false;
     });
-    // console.log(graph.modules);
 
     graph.PGmodules.forEach(function (elem) {
         routingGraph.nodes.push({
@@ -22,11 +21,9 @@ function graphToRoutingGraph(graph, cb) {
     // Push the edges
     routingGraph.links = graph.PGlinks;
     graph.PGmodules.forEach(function (elem) {
-        // console.log(elem);
         var elemNodes = elem.elements.nodes;
         var elemModules = elem.elements.modules;
 
-        // console.log(elemNodes);
         // Edges from current module to child nodes
         elemNodes.forEach(function (e) {
             routingGraph.links.push({
@@ -56,10 +53,6 @@ function graphToRoutingGraph(graph, cb) {
         routingGraph.links.push(edge);
     });
 
-    // routingGraph.links.push({
-    //     "source": "ran",
-    //     "target": "na"
-    // })
     // everything done
     return routingGraph;
 }
@@ -100,12 +93,7 @@ function graphToRoutingGraphSplit(graph) {
                 "external": {}
             };
             Nodes[e].external[module.id] = 1;
-            console.log ("adding ext edge between " + e + " and " + module.id);
         });
-
-        // console.log (obj);
-
-        // Nodes[module.id] = obj;
     });
 
     // Add the actual nodes
@@ -127,7 +115,6 @@ function graphToRoutingGraphSplit(graph) {
     var splitedNodes = {};
     var splitedLinks = [];
 
-    console.log (Nodes);
     for (var id in Nodes) {
         var node = Nodes[id];
 
@@ -149,7 +136,6 @@ function graphToRoutingGraphSplit(graph) {
 
             // if both >= 2 then split the node
             if (internalNodes.length >= 2 && externalNodes.length >= 2) {
-                console.log("splitting " + id);
 
                 // split it
                 var node1 = {
@@ -216,13 +202,8 @@ function graphToRoutingGraphSplit(graph) {
         }
     });
     
-    var nodeArr =[];//= Object.keys(splitedNodes);
-    // // console.log (nodeArr);
-    // var nodeObjArr = [];
-    // nodeArr.forEach (function (node) {
-    //     nodeObjArr.push({"id": node, "isRouting": Nodes ()})
-    // });
-    console.log(splitedNodes);
+    var nodeArr =[];
+
     for (var id in splitedNodes) {
         nodeArr.push({
             "id": id,
@@ -235,7 +216,5 @@ function graphToRoutingGraphSplit(graph) {
         "links": newLinks,
         "actualLinks": graphLinks
     };
-    console.log(splitedGraph);
-    // cb(splitedGraph);
     return splitedGraph;
 }

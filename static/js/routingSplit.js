@@ -11,7 +11,6 @@ var simulationRouteSplit = d3.forceSimulation()
     .force("center", d3.forceCenter(widthRouteSplit / 2, heightRouteSplit / 2));
 
 function genRoutingGraphSplit(pathToJsonFile) {
-    console.log("inside genRouting");
     d3.json(pathToJsonFile, function (error, graph) {
         if (error) throw error;
 
@@ -31,7 +30,6 @@ function graphToRoutingGraphSplit2(graph, cb) {
     routingGraph.nodes.forEach(function (elem) {
         elem.isRouting = false;
     });
-    // console.log(graph.modules);
 
     graph.PGmodules.forEach(function (elem) {
         routingGraph.nodes.push({
@@ -43,11 +41,9 @@ function graphToRoutingGraphSplit2(graph, cb) {
     // Push the edges
     routingGraph.links = graph.PGlinks;
     graph.PGmodules.forEach(function (elem) {
-        // console.log(elem);
         var elemNodes = elem.elements.nodes;
         var elemModules = elem.elements.modules;
 
-        // console.log(elemNodes);
         // Edges from current module to child nodes
         elemNodes.forEach(function (e) {
             routingGraph.links.push({
@@ -80,19 +76,10 @@ function genRoutingGraphSplitted(PGmodules, PGlinks) {
 
 function drawRoutingGraphSplit(graph) {
     // draw the routing graph
-    console.log(graph);
     var line = d3.radialLine()
         .curve(d3.curveBundle.beta(0.85))
         .radius(function (d) { return d.y; })
         .angle(function (d) { return d.x });
-
-    // var link = svgRouteSplit.append("g").selectAll(".links");
-    // link = link
-    //     .data(graph.links)
-    //     .enter().append("path")
-    //     .each(function (d) { d.source = d[0], d.target = d[d.length - 1]; })
-    //     .attr("class", "links")
-    //     .attr("d", line);
 
     var link = svgRouteSplit.append("g")
         .attr("class", "links")

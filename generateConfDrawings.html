@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Confluent Drawings </title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </style>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <h1> Confluent Drawings </h1>
+
+    <!-- Container for Confluent Drawings -->
+    <div style="width:100%">
+        <div style="width:100%; float: top">
+            <!-- routing graph -->
+            <svg width="460" height="300" id="routingGraph" style="float: left;"></svg>
+            <!-- ConfluentDrawing -->
+            <svg width="460" height="300" id="ConfDrawingCross" style="float: right;"></svg>
+        </div>
+        <div style="width:100%; float: bottom">
+            <!-- Splitted routing Graph -->
+            <svg width="460" height="300" id="routingGraphSplit" style="float: left;"></svg>
+            <!-- Final Confluent Drawing -->
+            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
+        </div>
+    </div>
+
+    <script> 
+        // var qs = new Querystring();
+        var qs = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length).substr(4);
+        // var v1 = qs.get("myVar");
+        console.log(parseInt(qs));
+    </script>
+    <!-- Load our JS -->
+    <script src="/js/graph.js"></script>
+    <script src="/js/dijkstra.js"></script>
+
+    <!-- JS for confluent drawings -->
+    <script src="/js/routing.js"></script>
+    <script src="/js/confluentDrawing.js"></script>
+    <script src="/js/routingGraph.js"></script>
+    <script src="/js/routingSplit.js"></script>
+    <script src="/js/confDrawingCross.js"></script>
+    <script src="/js/confDrawing.js"></script>
+    <script> genRoutingGraph("data/PG2.json"); </script>
+    <script> genRoutingGraphSplit("data/PG2.json"); </script>
+    <script> genConfluentDrawingCross("data/PG2.json"); </script>
+    <script> genConfluentDrawing("data/PG2.json"); </script>
+
+</body>
+
+</html>
