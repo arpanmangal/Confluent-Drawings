@@ -14,74 +14,12 @@ function genConfluentDrawingCross(pathToJsonFile) {
         if (error) throw error;
 
         // Get the routing graph from the module data
-        graphToRoutingGraphCDCross(graph, drawConfluentDrawingCross);
+        var routingGraph = graphToRoutingGraph (graph);
+        var confGraph = routingToConfGraph (routingGraph);
+        drawConfluentDrawingCross (confGraph);
     });
 }
 
-function graphToRoutingGraphCDCross(graph, cb) {
-
-    // Push the nodes
-    routingNodes = graph.nodes;
-
-    // mark each node as not routingNode
-    routingNodes.forEach(function (elem) {
-        elem.isRouting = false;
-    });
-
-    // Add the 'modules' nodes
-    graph.PGmodules.forEach(function (elem) {
-        routingNodes.push({
-            "id": elem.id,
-            "isRouting": true
-        }); // Each module is a routing node
-    });
-
-    // Push the edges
-    routingEdges = graph.PGlinks;
-
-    graph.PGmodules.forEach(function (elem) {
-        var elemNodes = elem.elements.nodes;
-        var elemModules = elem.elements.modules;
-
-        // Edges from current module to child nodes
-        elemNodes.forEach(function (e) {
-            routingEdges.push({
-                "source": elem.id,
-                "target": e
-            });
-        });
-
-        // Edges from current module to child modules
-        elemModules.forEach(function (e) {
-            routingEdges.push({
-                "source": elem.id,
-                "target": e
-            });
-        });
-
-    });
-
-    // Actual Edges (without the routing node)
-    actualEdges = graph.links;
-
-    var dijkstra_graph = make_graph(routingEdges);
-
-    var confluentEdges = [];
-
-    // for each actual edge find the shortest path in the routing graph and render it as a curve later
-    actualEdges.forEach(function (edge) {
-        confluentEdges.push(dijkstra(dijkstra_graph, edge.source, edge.target));
-    });
-
-    var confluentGraph = {
-        "nodes": routingNodes,
-        "links": routingEdges,
-        "confLinks": confluentEdges
-    };
-
-    // everything done
-    cb(confluentGraph);
-}
 
 function drawConfluentDrawingCross(graph) {
     // draw the routing graph
@@ -107,9 +45,9 @@ function drawConfluentDrawingCross(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
         .call(d3.drag()
-            .on("start", dragstartedConfCross)
-            .on("drag", draggedConfCross)
-            .on("end", dragendedConfCross));
+            .on("start", dragstartedConf)
+            .on("drag", draggedConf)
+            .on("end", dragendedConf));
 
     var curvedLine = d3.line()
         .curve(d3.curveBasis);
@@ -154,18 +92,18 @@ function drawConfluentDrawingCross(graph) {
     }
 }
 
-function dragstartedConfCross(d) {
+function dragstartedConf(d) {
     if (!d3.event.active) simulationConf.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function draggedConfCross(d) {
+function draggedConf(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragendedConfCross(d) {
+function dragendedConf(d) {
     if (!d3.event.active) simulationConf.alphaTarget(0);
     d.fx = null;
     d.fy = null;

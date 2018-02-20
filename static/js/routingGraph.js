@@ -16,72 +16,11 @@ function genRoutingGraph (pathToJsonFile) {
         if (error) throw error;
     
         // Get the routing graph from the module data
-        graphToRoutingGraph(graph, drawRoutingGraph);
+        var routingGraph = graphToRoutingGraph(graph)
+        drawRoutingGraph (routingGraph);
     });
 }
 
-function graphToRoutingGraph(graph, cb) {
-    var routingGraph = {};
-
-    // Push the nodes
-    routingGraph.nodes = graph.nodes;
-    // mark each node as not routingNode
-    routingGraph.nodes.forEach(function (elem) {
-        elem.isRouting = false;
-    });
-    // console.log(graph.modules);
-
-    graph.PGmodules.forEach(function (elem) {
-        routingGraph.nodes.push({
-            "id": elem.id,
-            "isRouting": true
-        }); // Each module is a routing node
-    });
-
-    // Push the edges
-    routingGraph.links = graph.PGlinks;
-    graph.PGmodules.forEach(function (elem) {
-        // console.log(elem);
-        var elemNodes = elem.elements.nodes;
-        var elemModules = elem.elements.modules;
-
-        // console.log(elemNodes);
-        // Edges from current module to child nodes
-        elemNodes.forEach(function (e) {
-            routingGraph.links.push({
-                "source": elem.id,
-                "target": e
-            });
-        });
-
-        // Edges from current module to child modules
-        elemModules.forEach(function (e) {
-            routingGraph.links.push({
-                "source": elem.id,
-                "target": e
-            });
-        });
-
-    });
-
-    var reverseEdges = [];
-    routingGraph.links.forEach (function (link) {
-        reverseEdges.push({
-            "source": link.source,
-            "target": link.target
-        });
-    });
-    reverseEdges.forEach (function (edge) {
-        routingGraph.links.push(edge);
-    });
-
-    // routingGraph.links.push({
-    //     "source": "ran",
-    //     "target": "na"
-    // })
-    // everything done
-    cb(routingGraph);
-}
 
 function drawRoutingGraph(graph) {
     // draw the routing graph
@@ -113,9 +52,9 @@ function drawRoutingGraph(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", 4.5)
         .call(d3.drag()
-            .on("start", dragstartedRoute)
-            .on("drag", draggedRoute)
-            .on("end", dragendedRoute));
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
 
     node.append("title")
         .text(function (d) { return d.id; });
@@ -140,18 +79,18 @@ function drawRoutingGraph(graph) {
     }
 }
 
-function dragstartedRoute(d) {
+function dragstarted(d) {
     if (!d3.event.active) simulationRoute.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function draggedRoute(d) {
+function dragged(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragendedRoute(d) {
+function dragended(d) {
     if (!d3.event.active) simulationRoute.alphaTarget(0);
     d.fx = null;
     d.fy = null;
