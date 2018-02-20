@@ -22,6 +22,7 @@
 
 /* unvisited link */
 a:link {
+    text-decoration: none;
     color: red;
 }
 

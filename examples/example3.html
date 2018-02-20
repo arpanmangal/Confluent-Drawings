@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> CD Example 3 </title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </style>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center; color:brown;"> Confluent Graphs </h1>
+    <div style="width:1000px; margin:0 auto;">
+        <p>
+            Consider the below Power-Graph:
+            <br />
+            <img src="/img/ex3.png" height="400px" width="700px" />
+            <br />
+            <br /> This one is the same graph which is used in the paper to discuss the algorithm. We first generate the routing
+            graph of this Power Graph. This will as follows:
+            <br />
+            <!-- routing graph -->
+            <svg width="460" height="300" id="routingGraph"></svg>
+            <br /> We then join each actual edge with a B-Spline using the routing nodes as control points. This will give us a
+            confluent graph having crossing links:
+            <br />
+            <!-- ConfluentDrawing -->
+            <svg width="460" height="300" id="ConfDrawingCross"></svg>
+            <br /> To remove the crossing links we divide the appropriate nodes. This results in the following:
+            <br />
+            <!-- Splitted routing Graph -->
+            <svg width="460" height="300" id="routingGraphSplit"></svg>
+            <br /> Making B-Splines on this results in the below confluent graph. The curve can be adjusted to make it better.
+            <br />
+            <!-- Final Confluent Drawing -->
+            <svg width="460" height="300" id="ConfDrawing"></svg>
+            <br />
+        </p>
+        <p>
+            <h3 style="text-align: center">
+                <a href="/">Home</a>
+            </h3>
+        </p>
+    </div>
+
+    <!-- Load our JS -->
+    <script src="/js/graph.js"></script>
+    <script src="/js/dijkstra.js"></script>
+
+    <!-- JS for confluent drawings -->
+    <script src="/js/routing.js"></script>
+    <script src="/js/confluentDrawing.js"></script>
+    <script src="/js/routingGraph.js"></script>
+    <script src="/js/routingSplit.js"></script>
+    <script src="/js/confDrawingCross.js"></script>
+    <script src="/js/confDrawing.js"></script>
+    <script> genRoutingGraph("data/ex3.json"); </script>
+    <script> genRoutingGraphSplit("data/ex3.json"); </script>
+    <script> genConfluentDrawingCross("data/ex3.json"); </script>
+    <script> genConfluentDrawing("data/ex3.json"); </script>
+
+</body>
+
+</html>

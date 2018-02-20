@@ -51,7 +51,7 @@
                 <svg width="460" height="250" id="routingGraph"></svg>
             </li>
             <li value=4>
-                In this Power Graph we connect each of the actual (black) vertices using B-Splines taking the routing nodes as the control
+                In this Power Graph we connect each of the actual (black) vertices by curves using common B-Splines taking the routing nodes as the control
                 points. This results in a Confluent Graph as below.
             </li>
             <li style="list-style-type: none">
@@ -67,7 +67,7 @@
                 <em>r</em>
                 <sub>out</sub>. This gives another routing graph as below.
                 <br /> (The graph
-                <em>may</em> appear very different than before at first sight. It is due to d3 laying out in a rotated manner
+                <em>may</em> appear very different than before at first sight. It is due to d3 laying out the graph in a rotated manner
                 different from above. Just play around with the nodes till it regains the right order.)
             </li>
             <li style="list-style-type: none">
@@ -87,8 +87,8 @@
             Please look through some more examples here:
             <ul>
                 <li><a href="/example1">Example 1</a></li>
-                <li><a href="/example1">Example 2</a></li>
-                <li><a href="/example1">Example 3</a></li>
+                <li><a href="/example2">Example 2</a></li>
+                <li><a href="/example3">Example 3</a></li>
             </ul>
         </p>
     </div>
@@ -100,15 +100,14 @@
     <!-- JS for confluent drawings -->
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
-    <script src="/js/nodeLink.js"></script>
     <script src="/js/routingGraph.js"></script>
     <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
     <script src="/js/confDrawing.js"></script>
-    <script> genRoutingGraph("data/PG1.json"); </script>
-    <script> genRoutingGraphSplit("data/PG1.json"); </script>
-    <script> genConfluentDrawingCross("data/PG1.json"); </script>
-    <script> genConfluentDrawing("data/PG1.json"); </script>
+    <script> genRoutingGraph("data/PG.json"); </script>
+    <script> genRoutingGraphSplit("data/PG.json"); </script>
+    <script> genConfluentDrawingCross("data/PG.json"); </script>
+    <script> genConfluentDrawing("data/PG.json"); </script>
 
 </body>
 
