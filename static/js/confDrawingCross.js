@@ -1,24 +1,24 @@
 // JS file containing code for generating confluent drawings without removing the crossing links
 
-var svgConf = d3.select("#ConfDrawing"),
-    widthConf = +svgConf.attr("width"),
-    heightConf = +svgConf.attr("height");
+var svgConfCross = d3.select("#ConfDrawingCross"),
+    widthConfCross = +svgConfCross.attr("width"),
+    heightConfCross = +svgConfCross.attr("height");
 
-var simulationConf = d3.forceSimulation()
+var simulationConfCross = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) {return d.id; }))
     .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(widthConf / 2, heightConf / 2));
+    .force("center", d3.forceCenter(widthConfCross / 2, heightConfCross / 2));
 
-function genConfluentDrawing(pathToJsonFile) {
+function genConfluentDrawingCross(pathToJsonFile) {
     d3.json(pathToJsonFile, function (error, graph) {
         if (error) throw error;
 
         // Get the routing graph from the module data
-        graphToRoutingGraphCD(graph, drawConfluentDrawing);
+        graphToRoutingGraphCDCross(graph, drawConfluentDrawingCross);
     });
 }
 
-function graphToRoutingGraphCD(graph, cb) {
+function graphToRoutingGraphCDCross(graph, cb) {
 
     // Push the nodes
     routingNodes = graph.nodes;
@@ -83,7 +83,7 @@ function graphToRoutingGraphCD(graph, cb) {
     cb(confluentGraph);
 }
 
-function drawConfluentDrawing(graph) {
+function drawConfluentDrawingCross(graph) {
     // draw the routing graph
 
     // creating the mapping between index and id in graph.nodes
@@ -92,14 +92,14 @@ function drawConfluentDrawing(graph) {
         mapping[node.id] = i;
     });
 
-    var link = svgConf.append("g")
+    var link = svgConfCross.append("g")
         .attr("class", "invisible")
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
 
 
-    var node = svgConf.append("g")
+    var node = svgConfCross.append("g")
         .attr("class", "nodes")
         .selectAll("circle")
         .data(graph.nodes)
@@ -107,16 +107,16 @@ function drawConfluentDrawing(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
         .call(d3.drag()
-            .on("start", dragstartedConf)
-            .on("drag", draggedConf)
-            .on("end", dragendedConf));
+            .on("start", dragstartedConfCross)
+            .on("drag", draggedConfCross)
+            .on("end", dragendedConfCross));
 
     var curvedLine = d3.line()
         .curve(d3.curveBasis);
         // .x(function (d) { return d.x })
         // .y(function (d) { return d.y });
 
-    var curvedLink = svgConf.append("g")
+    var curvedLink = svgConfCross.append("g")
         .attr("class", "confs")
         .selectAll("path")
         .data(graph.confLinks)
@@ -125,11 +125,11 @@ function drawConfluentDrawing(graph) {
     node.append("title")
         .text(function (d) { return d.id; });
 
-    simulationConf
+    simulationConfCross
         .nodes(graph.nodes)
         .on("tick", ticked);
 
-    simulationConf.force("link")
+    simulationConfCross.force("link")
         .links(graph.links);
 
     function ticked() {
@@ -154,18 +154,18 @@ function drawConfluentDrawing(graph) {
     }
 }
 
-function dragstartedConf(d) {
+function dragstartedConfCross(d) {
     if (!d3.event.active) simulationConf.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function draggedConf(d) {
+function draggedConfCross(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragendedConf(d) {
+function dragendedConfCross(d) {
     if (!d3.event.active) simulationConf.alphaTarget(0);
     d.fx = null;
     d.fy = null;

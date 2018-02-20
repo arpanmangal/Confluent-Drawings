@@ -14,18 +14,18 @@
     <h1> Confluent Drawings </h1>
 
     <!-- Container for Confluent Drawings -->
-    <div>
-        <div style="width:100%">
+    <div style="width:100%">
+        <div style="width:100%; float: top">
             <!-- routing graph -->
             <svg width="460" height="300" id="routingGraph" style="float: left;"></svg>
             <!-- ConfluentDrawing -->
-            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
+            <svg width="460" height="300" id="ConfDrawingCross" style="float: right;"></svg>
         </div>
-        <div style="width:100%">
+        <div style="width:100%; float: bottom">
             <!-- Splitted routing Graph -->
-            <!-- <svg width="460" height="300" id="routingGraph" style="float: left;"></svg> -->
-
+            <svg width="460" height="300" id="routingGraphSplit" style="float: left;"></svg>
             <!-- Final Confluent Drawing -->
+            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
         </div>
     </div>
 
@@ -35,9 +35,13 @@
     <script src="/js/dijkstra.js"></script>
 
     <!-- JS for confluent drawings -->
+    <script src="/js/routingGraph.js"></script>
     <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
+    <script src="/js/confDrawing.js"></script>
+    <script> genRoutingGraph ("data/PG2.json"); </script>
     <script> genRoutingGraphSplit ("data/PG2.json"); </script>
+    <script> genConfluentDrawingCross("data/PG2.json"); </script>
     <script> genConfluentDrawing("data/PG2.json"); </script>
 
 </body>
