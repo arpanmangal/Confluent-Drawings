@@ -42,20 +42,21 @@ function graphToRoutingGraph(graph, cb) {
 
     });
 
-    var reverseEdges = [];
-    routingGraph.links.forEach (function (link) {
-        reverseEdges.push({
-            "source": link.source,
-            "target": link.target
-        });
-    });
-    reverseEdges.forEach (function (edge) {
-        routingGraph.links.push(edge);
-    });
+    // var reverseEdges = [];
+    // routingGraph.links.forEach (function (link) {
+    //     reverseEdges.push({
+    //         "source": link.source,
+    //         "target": link.target
+    //     });
+    // });
+    // reverseEdges.forEach (function (edge) {
+    //     routingGraph.links.push(edge);
+    // });
 
     // everything done
     return routingGraph;
 }
+
 
 function graphToRoutingGraphSplit(graph) {
     var PGmodules = graph.PGmodules; // PG Modules
@@ -201,8 +202,8 @@ function graphToRoutingGraphSplit(graph) {
             newLinks.push(link);
         }
     });
-    
-    var nodeArr =[];
+     
+    var nodeArr = [];
 
     for (var id in splitedNodes) {
         nodeArr.push({

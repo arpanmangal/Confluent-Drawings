@@ -21,7 +21,8 @@
 
     <div style="width:1000px; margin:0 auto;">
 
-        <p> We implement the main algorithm of the paper as detailed in Sections 3.1 and 3.2 . This mainly consists of the following
+        <p>
+            We implement the main algorithm of the paper as detailed in Sections 3.1 and 3.2 . This mainly consists of the following
             steps:
         </p>
         <ol>
@@ -33,46 +34,65 @@
             <li style="list-style-type: none">
                 <img src="/img/graph.png" />
             </li>
-            <li value=2>From the given nodes and links we construct a Power Graph (PG) Decomposition. This decomposition could be done
-                using algorithms like the beam-search algorithm. We currently assume that this Power Graph Decomposition
-                is given to us and build on top of it.
+            <li value=2>
+                From the given nodes and links we construct a Power Graph (PG) Decomposition. This decomposition could be done using algorithms
+                like the beam-search algorithm. We currently assume that this Power Graph Decomposition is given to us and
+                build on top of it.
             </li>
             <li style="list-style-type: none">
                 <img src="/img/PowerGraph.png" />
             </li>
-            <li value=3>From this Power Graph we make a routing graph as detailed in the paper.
+            <li value=3>
+                From this Power Graph we make a routing graph as detailed in the paper. It will appear as below. The black vertices are the
+                actual nodes, while blue ones are the routing nodes.
             </li>
             <li style="list-style-type: none">
-                <svg width="460" height="250" id="routingGraph" style="float: left;"></svg>
+                <!-- routing graph -->
+                <svg width="460" height="250" id="routingGraph"></svg>
             </li>
-
+            <li value=4>
+                In this Power Graph we connect each of the actual (black) vertices using B-Splines taking the routing nodes as the control
+                points. This results in a Confluent Graph as below.
+            </li>
+            <li style="list-style-type: none">
+                <!-- ConfluentDrawing -->
+                <svg width="460" height="250" id="ConfDrawingCross"></svg>
+            </li>
+            <li value=5>
+                This way of rendering confluent graphs, results in a specific artifact of crossing links where semantically there is a bundle.
+                This is described in detail in the paper. To overcome this we split certain routing nodes
+                <em>r</em> into routing nodes
+                <em>r</em>
+                <sub>in</sub> and
+                <em>r</em>
+                <sub>out</sub>. This gives another routing graph as below.
+                <br /> (The graph
+                <em>may</em> appear very different than before at first sight. It is due to d3 laying out in a rotated manner
+                different from above. Just play around with the nodes till it regains the right order.)
+            </li>
+            <li style="list-style-type: none">
+                <!-- Splitted routing Graph -->
+                <svg width="460" height="300" id="routingGraphSplit"></svg>
+            </li>
+            <li value=6>
+                We then again apply the B-Spline method over this "splitted" routing graph and obtain a much better confluent graph.
+            </li>
+            <li style="list-style-type: none">
+                <!-- Final Confluent Drawing -->
+                <svg width="460" height="300" id="ConfDrawing"></svg>
+            </li>
         </ol>
+        <br />
+        <p>
+            Please look through some more examples here:
+            <ul>
+                <li><a href="/example1">Example 1</a></li>
+                <li><a href="/example1">Example 2</a></li>
+                <li><a href="/example1">Example 3</a></li>
+            </ul>
+        </p>
     </div>
 
-
-
-    <!-- Container for Confluent Drawings -->
-    <div style="width:100%">
-        <div style="width:100%; float: top">
-            <svg width="460" height="300" id="node-link-graph" style="float: left;"></svg>
-            <!-- routing graph -->
-            <!-- ConfluentDrawing -->
-            <svg width="460" height="100" id="ConfDrawingCross" style="float: right;"></svg>
-        </div>
-        <div style="width:100%; float: bottom">
-            <!-- Splitted routing Graph -->
-            <svg width="460" height="300" id="routingGraphSplit" style="float: left;"></svg>
-            <!-- Final Confluent Drawing -->
-            <svg width="460" height="300" id="ConfDrawing" style="float: right;"></svg>
-        </div>
-    </div>
-
-    <script> 
-        // var qs = new Querystring();
-        var qs = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length).substr(4);
-        // var v1 = qs.get("myVar");
-        console.log(parseInt(qs));
-    </script>
     <!-- Load our JS -->
     <script src="/js/graph.js"></script>
     <script src="/js/dijkstra.js"></script>

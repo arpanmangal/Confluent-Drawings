@@ -11,8 +11,14 @@ app.use(express.static('static'));
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-app.get('/confluentDrawing', function (req, res) {
-    res.sendFile(__dirname + '/generateConfDrawings.html');
+app.get('/example1', function (req, res) {
+    res.sendFile(__dirname + '/examples/example1.html');
+});
+app.get('/example2', function (req, res) {
+    res.sendFile(__dirname + '/examples/example2.html');
+});
+app.get('/example3', function (req, res) {
+    res.sendFile(__dirname + '/examples/example3.html');
 });
 
 app.listen(PORT, console.log("The App is running on PORT: " + PORT +". Visit http://localhost:"+PORT+"/"));
