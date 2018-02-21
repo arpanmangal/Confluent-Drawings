@@ -40,3 +40,8 @@ a:hover {
 a:active {
     color: blue;
 }
+
+/* Center the figures */
+figure {
+    text-align: center;
+}

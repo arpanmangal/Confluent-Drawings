@@ -5,8 +5,12 @@ Confluent Drawings for Network Visualization".
 
 ### Visit https://confluent-graphs.herokuapp.com/
 
+(Note: On Heroku the graph nodes may not be fully seperated due to network lag etc. For better results run locally.)
+
 ### To run locally
 ```
+    $ git clone https://github.com/ArpanMangal/CD_NetworkVisualization.git
+    $ cd CD_NetworkVisualization
     $ npm install
     $ npm start
 ```
