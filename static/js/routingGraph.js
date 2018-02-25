@@ -1,23 +1,36 @@
 // JS file containing code for generating confluent drawings
 
+// global variables
+var svgRoute,
+    widthRoute,
+    heightRoute,
+    simulationRoute;
 
-var svgRoute = d3.select("#routingGraph"),
-    widthRoute = +svgRoute.attr("width"),
+function setUpSVG() {
+    svgRoute = d3.select("#routingGraph");
+    widthRoute = +svgRoute.attr("width");
     heightRoute = +svgRoute.attr("height");
 
-var simulationRoute = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(widthRoute / 2, heightRoute / 2));
+    simulationRoute = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) { return d.id; }))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(widthRoute / 2, heightRoute / 2));
+}
 
-function genRoutingGraph (pathToJsonFile) {
-    d3.json(pathToJsonFile, function (error, graph) {
-        if (error) throw error;
-    
-        // Get the routing graph from the module data
-        var routingGraph = graphToRoutingGraph(graph)
-        drawRoutingGraph (routingGraph);
-    });
+function genRoutingGraph(graph) {
+    // d3.json(pathToJsonFile, function (error, graph) {
+    //     if (error) throw error;
+
+    //     // Get the routing graph from the module data
+    //     var routingGraph = graphToRoutingGraph(graph)
+    //     drawRoutingGraph (routingGraph);
+    // });
+
+    // set Up SVG
+    setUpSVG();
+    // Get the routing graph from the module data
+    var routingGraph = graphToRoutingGraph(graph)
+    drawRoutingGraph(routingGraph);
 }
 
 

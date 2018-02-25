@@ -7,8 +7,9 @@
     </style>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <script src="/lib/d3.v4.min.js"></script>
-    <!-- <script src="/lib/d3.v3.js"></script> -->
+    <script src="/lib/jquery-1.10.2.min.js"></script>
+    <script src="/lib/d3.v3.js"></script>
+    <script src="/lib/cola.v4.js"></script>
 </head>
 
 <body>
@@ -122,17 +123,78 @@
     <script src="/js/graph.js"></script>
     <script src="/js/dijkstra.js"></script>
 
+    <!-- JS for Power Graph Layout -->
+    <script src="/js/genPGlayout.js"></script>
     <!-- JS for confluent drawings -->
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
     <script src="/js/routingGraph.js"></script>
-    <script src="/js/routingSplit.js"></script>
+    <!-- <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
-    <script src="/js/confDrawing.js"></script>
-    <!-- <script> genRoutingGraph("data/PG.json"); </script> -->
-    <script> genRoutingGraphSplit("data/PG1.json"); </script>
-    <script> genConfluentDrawingCross("data/PG1.json"); </script>
-    <script> genConfluentDrawing("data/PG1.json"); </script>
+    <script src="/js/confDrawing.js"></script> -->
+    <!-- <script src="/lib/d3.v3.js"></script> -->
+    <!-- <script src="/lib/d3.v4.min.js"></script> -->
+    <script>
+        // PG decomposition
+        getPGlayout("data/PG.json", {});
+    </script>
+
+    <!-- <script src="/lib/d3.v4.min.js"></script> -->
+    <script>
+        // Wait for PG decomposition
+        setTimeout(() => {
+            console.log(moduleData);
+
+            // Load d3 v4
+            var script = document.createElement('script');
+            script.src = "/lib/d3.v4.min.js";
+            var head = document.getElementsByTagName('head')[0];
+            console.log(head);
+            setTimeout(() => {
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                setTimeout(() => {
+                    console.log(head);
+                    head.appendChild(script);
+
+                    setTimeout(() => {
+                        // d3.json("data/PG.json", function (error, graph) {
+                        //     if (error) throw error;
+
+                        //     graph["PGmodules"] = moduleData.PGmodules;
+                        //     graph["PGlinks"] = moduleData.PGlinks;
+
+                        console.log(moduleData);
+                        genRoutingGraph(moduleData);
+                        // genRoutingGraphSplit("data/PG.json");
+                        // genConfluentDrawingCross("data/PG.json");
+                        // genConfluentDrawing("data/PG.json");
+                        // });
+                    }, 2000);
+                }, 1000);
+            }, 5000);
+
+            // head.appendChild(script);
+            // d3.json("data/PG.json", function (error, graph) {
+            //     if (error) throw error;
+
+            //     graph["PGmodules"] = moduleData.PGmodules;
+            //     graph["PGlinks"] = moduleData.PGlinks;
+
+            //     console.log(graph);
+            //     genRoutingGraph(graph);
+            //     // genRoutingGraphSplit("data/PG.json");
+            //     // genConfluentDrawingCross("data/PG.json");
+            //     // genConfluentDrawing("data/PG.json");
+            // });
+        }, 3000);
+    </script>
+    <!-- <script> genRoutingGraph("data/PG.json"); </script>
+    <script> genRoutingGraphSplit("data/PG.json"); </script>
+    <script> genConfluentDrawingCross("data/PG.json"); </script>
+    <script> genConfluentDrawing("data/PG.json"); </script> -->
 
 </body>
 
