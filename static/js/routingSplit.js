@@ -1,24 +1,33 @@
 // JS file containing code for generating confluent drawings
 
+var svgRouteSplit,
+    widthRouteSplit,
+    heightRouteSplit,
+    simulationRouteSplit;
 
-var svgRouteSplit = d3.select("#routingGraphSplit"),
-    widthRouteSplit = +svgRouteSplit.attr("width"),
+function setUp_svgRouteSplit() {
+    svgRouteSplit = d3.select("#routingGraphSplit");
+    widthRouteSplit = +svgRouteSplit.attr("width");
     heightRouteSplit = +svgRouteSplit.attr("height");
 
-var simulationRouteSplit = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(widthRouteSplit / 2, heightRouteSplit / 2));
+    simulationRouteSplit = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) { return d.id; }))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(widthRouteSplit / 2, heightRouteSplit / 2));
+}
 
-function genRoutingGraphSplit(pathToJsonFile) {
-    d3.json(pathToJsonFile, function (error, graph) {
-        if (error) throw error;
+function genRoutingGraphSplit(graph) {
+    // d3.json(pathToJsonFile, function (error, graph) {
+    //     if (error) throw error;
 
-        // graphToRoutingGraphSplit (graph, null);
-        // Get the routing graph from the module data
-        var routingGraphSplit = graphToRoutingGraphSplit(graph);
-        drawRoutingGraphSplit (routingGraphSplit);
-    });
+    // set up the svg
+    setUp_svgRouteSplit();
+
+    // graphToRoutingGraphSplit (graph, null);
+    // Get the routing graph from the module data
+    var routingGraphSplit = graphToRoutingGraphSplit(graph);
+    drawRoutingGraphSplit(routingGraphSplit);
+    // });
 }
 
 function graphToRoutingGraphSplit2(graph, cb) {

@@ -119,6 +119,8 @@
         </p>
     </div>
 
+    <svg width="460" height="250" id="node-link-graph"></svg>
+
     <!-- Load our JS -->
     <script src="/js/graph.js"></script>
     <script src="/js/dijkstra.js"></script>
@@ -126,17 +128,18 @@
     <!-- JS for Power Graph Layout -->
     <script src="/js/genPGlayout.js"></script>
     <!-- JS for confluent drawings -->
+    <script src="/js/nodeLink.js"></script>
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
     <script src="/js/routingGraph.js"></script>
-    <!-- <script src="/js/routingSplit.js"></script>-->
+    <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
-    <!--<script src="/js/confDrawing.js"></script> -->
-    <!-- <script src="/lib/d3.v3.js"></script> -->
-    <!-- <script src="/lib/d3.v4.min.js"></script> -->
+    <script src="/js/confDrawing.js"></script>
+    <script src="/js/powergraphgridlayout.js"></script>
     <script>
         // PG decomposition
         getPGlayout("data/p.json", {});
+        // drawPG("data/p.json", {});
     </script>
 
     <!-- <script src="/lib/d3.v4.min.js"></script> -->
@@ -169,13 +172,17 @@
                         console.log(moduleData);
                         // jsonData = JSON.stringify(moduleData);
                         // console.log(jsonData);
-                        var obj1 = $.extend(true, {}, moduleData);
-                        var obj2 = $.extend(true, {}, moduleData);
-                        genRoutingGraph(obj1);
-                        genConfluentDrawingCross(obj2);
-                        // genRoutingGraphSplit("data/PG.json");
+                        var dataCopy1 = $.extend(true, {}, moduleData);
+                        var dataCopy2 = $.extend(true, {}, moduleData);
+                        var dataCopy3 = $.extend(true, {}, moduleData);
+                        var dataCopy4 = $.extend(true, {}, moduleData);
+                        var dataCopy5 = $.extend(true, {}, moduleData);
+                        drawNodeLink(dataCopy5);
+                        genRoutingGraph(dataCopy1);
+                        genConfluentDrawingCross(dataCopy2);
+                        genRoutingGraphSplit(dataCopy3);
                         // genConfluentDrawingCross("data/PG.json");
-                        // genConfluentDrawing("data/PG.json");
+                        genConfluentDrawing(dataCopy4);
                         // });
                     }, 1000);
                 }, 1000);

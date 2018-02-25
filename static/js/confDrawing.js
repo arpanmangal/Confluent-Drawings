@@ -1,24 +1,35 @@
 // JS file containing code for generating confluent drawings without removing the crossing links
 
-var svgConf = d3.select("#ConfDrawing"),
-    widthConf = +svgConf.attr("width"),
+var svgConf,
+    widthConf,
+    heightConf,
+    simulationConf;
+
+function setUp_svgConf() {
+
+    svgConf = d3.select("#ConfDrawing");
+    widthConf = +svgConf.attr("width");
     heightConf = +svgConf.attr("height");
 
-var simulationConf = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) {return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(widthConf / 2, heightConf / 2));
+    simulationConf = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) { return d.id; }))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(widthConf / 2, heightConf / 2));
+}
 
-function genConfluentDrawing(pathToJsonFile) {
-    d3.json(pathToJsonFile, function (error, graph) {
-        if (error) throw error;
+function genConfluentDrawing(graph) {
+    // d3.json(pathToJsonFile, function (error, graph) {
+    //     if (error) throw error;
 
-        // Get the routing graph from the module data
-        var routingGraphSplit = graphToRoutingGraphSplit (graph);
+    // set up the svg
+    setUp_svgConf();
 
-        var confGraph = routingToConfGraph (routingGraphSplit);
-        drawConfluentDrawing (confGraph);
-    });
+    // Get the routing graph from the module data
+    var routingGraphSplit = graphToRoutingGraphSplit(graph);
+
+    var confGraph = routingToConfGraph(routingGraphSplit);
+    drawConfluentDrawing(confGraph);
+    // });
 }
 
 function drawConfluentDrawing(graph) {
@@ -26,7 +37,7 @@ function drawConfluentDrawing(graph) {
 
     // creating the mapping between index and id in graph.nodes
     var mapping = {};
-    graph.nodes.forEach (function (node, i) {
+    graph.nodes.forEach(function (node, i) {
         mapping[node.id] = i;
     });
 
@@ -43,7 +54,7 @@ function drawConfluentDrawing(graph) {
         .data(graph.nodes)
         .enter().append("circle")
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
-        .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
+        .attr("r", function (d) { return d.isRouting ? 0.5 : 4.5 })
         .call(d3.drag()
             .on("start", dragstartedConf)
             .on("drag", draggedConf)

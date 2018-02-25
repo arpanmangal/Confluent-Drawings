@@ -5,21 +5,15 @@ var moduleData = {
 
 function getPGlayout(pathToJsonFile, powergraphgridlayout) {
     var colans = cola;
-    function powerGraph2() {
-        var d3cola = colans.d3adaptor();//.jaccardLinkLengths(10, 0.5).avoidOverlaps(true);//.size([width, height]);
-        // var svg = makeSVG();
+    function powerGraph() {
+        var d3cola = colans.d3adaptor();
+
         d3.json(pathToJsonFile, function (error, graph) {
             var powerGraph;
             d3cola.nodes(graph.nodes).links(graph.links).powerGraphGroups(function (d) {
                 powerGraph = d;
-                // powerGraph.groups.forEach(function (v) {
-                //     v.padding = 20;
-                // });
             }).start(10, 10, 10);
-            // var group = svg.selectAll(".group").data(powerGraph.groups).enter().append("rect").attr("rx", 8).attr("ry", 8).attr("class", "group").style("fill", function (d, i) {
-            //     return color(i);
-            // });
-            console.log(powerGraph);
+            
             // Get PG Modules
             var modules = [];
             powerGraph.groups.forEach(function (group) {
@@ -42,7 +36,6 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
                 }
 
                 // add the child modules
-                // console.log(group);
                 if (group.groups) {
                     group.groups.forEach(function (childGrp) {
                         modules[modules.length - 1].elements.modules.push("Group" + childGrp.id);
@@ -50,7 +43,6 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
                 };
             });
 
-            // console.log(modules);
             moduleData.PGmodules = modules;
 
 
@@ -64,7 +56,6 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
                 });
             });
 
-            // console.log(PGlinks);
             moduleData.PGlinks = PGlinks;
         });
 
@@ -79,22 +70,5 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
             });
         });
     }
-    powerGraph2();
-
-    // console.log(powergraphgridlayout);
-    // console.log(iter++);
-
-    // console.log(powerGraph.groups);
-    // function getGroupts
+    powerGraph();
 };
-
-//# sourceMappingURL=powergraphgridlayout.js.map
-console.log('hi');
-// setTimeout(() => {
-//     console.log(moduleData);
-//     d3.json("graphdata/n7e23.json", function (error, graph) {
-//         if (error) throw error;
-
-//         console.log(graph);
-//     });
-// }, 3000);
