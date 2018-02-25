@@ -35,9 +35,11 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
                 });
 
                 // add the child nodes
-                group.leaves.forEach(function (leaf) {
-                    modules[modules.length - 1].elements.nodes.push("" + leaf.name);
-                });
+                if (group.leaves) {
+                    group.leaves.forEach(function (leaf) {
+                        modules[modules.length - 1].elements.nodes.push("" + leaf.name);
+                    });
+                }
 
                 // add the child modules
                 // console.log(group);
@@ -64,12 +66,14 @@ function getPGlayout(pathToJsonFile, powergraphgridlayout) {
 
             // console.log(PGlinks);
             moduleData.PGlinks = PGlinks;
+        });
 
+        d3.json(pathToJsonFile, function (error, graph) {
             // add nodes and links
             moduleData["nodes"] = [];
             moduleData["links"] = graph.links;
-            graph.nodes.forEach (function (node) {
-                moduleData.nodes.push ({
+            graph.nodes.forEach(function (node) {
+                moduleData.nodes.push({
                     "id": node.name
                 });
             });

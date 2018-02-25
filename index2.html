@@ -129,14 +129,14 @@
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
     <script src="/js/routingGraph.js"></script>
-    <!-- <script src="/js/routingSplit.js"></script>
+    <!-- <script src="/js/routingSplit.js"></script>-->
     <script src="/js/confDrawingCross.js"></script>
-    <script src="/js/confDrawing.js"></script> -->
+    <!--<script src="/js/confDrawing.js"></script> -->
     <!-- <script src="/lib/d3.v3.js"></script> -->
     <!-- <script src="/lib/d3.v4.min.js"></script> -->
     <script>
         // PG decomposition
-        getPGlayout("data/PG.json", {});
+        getPGlayout("data/p.json", {});
     </script>
 
     <!-- <script src="/lib/d3.v4.min.js"></script> -->
@@ -167,14 +167,19 @@
                         //     graph["PGlinks"] = moduleData.PGlinks;
 
                         console.log(moduleData);
-                        genRoutingGraph(moduleData);
+                        // jsonData = JSON.stringify(moduleData);
+                        // console.log(jsonData);
+                        var obj1 = $.extend(true, {}, moduleData);
+                        var obj2 = $.extend(true, {}, moduleData);
+                        genRoutingGraph(obj1);
+                        genConfluentDrawingCross(obj2);
                         // genRoutingGraphSplit("data/PG.json");
                         // genConfluentDrawingCross("data/PG.json");
                         // genConfluentDrawing("data/PG.json");
                         // });
-                    }, 2000);
+                    }, 1000);
                 }, 1000);
-            }, 5000);
+            }, 2000);
 
             // head.appendChild(script);
             // d3.json("data/PG.json", function (error, graph) {

@@ -6,7 +6,7 @@ var svgRoute,
     heightRoute,
     simulationRoute;
 
-function setUpSVG() {
+function setUpSVG_routingGraph() {
     svgRoute = d3.select("#routingGraph");
     widthRoute = +svgRoute.attr("width");
     heightRoute = +svgRoute.attr("height");
@@ -26,8 +26,9 @@ function genRoutingGraph(graph) {
     //     drawRoutingGraph (routingGraph);
     // });
 
+    console.log(graph);
     // set Up SVG
-    setUpSVG();
+    setUpSVG_routingGraph();
     // Get the routing graph from the module data
     var routingGraph = graphToRoutingGraph(graph)
     drawRoutingGraph(routingGraph);

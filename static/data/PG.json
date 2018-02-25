@@ -1,42 +1,37 @@
 {
-    "nodes": [
-      {"id": "s"},
-      {"id": "t"},
-      {"id": "u"},
-      {"id": "v"},
-      {"id": "w"},
-      {"id": "y"},
-      {"id": "x"},
-      {"id": "z"}
+    "nodes":[
+      {"name":"0"},
+      {"name":"1"},
+      {"name":"2"},
+      {"name":"3"},
+      {"name":"4"},
+      {"name":"5"},
+      {"name":"6"}
     ],
-    "links": [
-      {"source": "u", "target": "x"},
-      {"source": "u", "target": "y"},
-      {"source": "u", "target": "z"},
-      {"source": "u", "target": "v"},
-      {"source": "u", "target": "w"},
-      {"source": "s", "target": "x"},
-      {"source": "s", "target": "y"},
-      {"source": "s", "target": "z"},
-      {"source": "s", "target": "w"},
-      {"source": "t", "target": "x"},
-      {"source": "t", "target": "y"},
-      {"source": "t", "target": "z"},
-      {"source": "t", "target": "w"},
-      {"source": "x", "target": "z"},
-      {"source": "y", "target": "w"},
-      {"source": "v", "target": "w"}
-    ],
-    "PGmodules": [
-        {"id": "A", "elements": {"nodes": ["u", "t", "s"], "modules": [] }},
-        {"id": "B", "elements": {"nodes": ["v"], "modules": ["A"]}},
-        {"id": "C", "elements": {"nodes": ["x", "y", "z"], "modules": []}}
-    ],
-    "PGlinks": [
-      {"source": "v", "target": "u"},
-      {"source": "A", "target": "w"},
-      {"source": "w", "target": "y"},
-      {"source": "x", "target": "z"},
-      {"source": "A", "target": "C"}
+    "links":[
+      {"source":0,"target":1},
+      {"source":0,"target":3},
+      {"source":0,"target":4},
+      {"source":0,"target":5},
+      {"source":0,"target":6},
+      {"source":1,"target":6},
+      {"source":2,"target":0},
+      {"source":2,"target":1},
+      {"source":2,"target":3},
+      {"source":2,"target":4},
+      {"source":2,"target":5},
+      {"source":2,"target":6},
+      {"source":3,"target":6},
+      {"source":3, "target":6},
+      {"source":4,"target":1},
+      {"source":4,"target":2},
+      {"source":4,"target":3},
+      {"source":4,"target":5},
+      {"source":4,"target":6},
+      {"source":5,"target":0},
+      {"source":5,"target":2},
+      {"source":5,"target":4},
+      {"source":6,"target":1},
+      {"source":6,"target":3}
     ]
-  }
+}

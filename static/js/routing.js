@@ -1,6 +1,6 @@
 // This file contains functions for making the routing graph
 
-function graphToRoutingGraph(graph, cb) {
+function graphToRoutingGraph(graph) {
     var routingGraph = {};
     routingGraph.actualLinks = graph.links;
 

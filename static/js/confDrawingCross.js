@@ -1,32 +1,45 @@
 // JS file containing code for generating confluent drawings without removing the crossing links
 
-var svgConfCross = d3.select("#ConfDrawingCross"),
-    widthConfCross = +svgConfCross.attr("width"),
-    heightConfCross = +svgConfCross.attr("height");
+var svgConfCross,
+    widthConfCross,
+    heightConfCross,
+    simulationConfCross;
 
-var simulationConfCross = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) {return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(widthConfCross / 2, heightConfCross / 2));
+function setUpSVG_confDrawCross() {
+    svgConfCross = d3.select("#ConfDrawingCross");
+        widthConfCross = +svgConfCross.attr("width");
+        heightConfCross = +svgConfCross.attr("height");
 
-function genConfluentDrawingCross(pathToJsonFile) {
-    d3.json(pathToJsonFile, function (error, graph) {
-        if (error) throw error;
+    simulationConfCross = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) { return d.id; }))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(widthConfCross / 2, heightConfCross / 2));
+}
 
-        // Get the routing graph from the module data
-        var routingGraph = graphToRoutingGraph (graph);
-        var confGraph = routingToConfGraph (routingGraph);
-        drawConfluentDrawingCross (confGraph);
-    });
+function genConfluentDrawingCross(graph) {
+    // d3.json(pathToJsonFile, function (error, graph) {
+    // if (error) throw error;
+
+    console.log('hello conf draw');
+    console.log(graph);
+    // load svg
+    setUpSVG_confDrawCross();
+
+    // Get the routing graph from the module data
+    var routingGraph = graphToRoutingGraph(graph);
+    var confGraph = routingToConfGraph(routingGraph);
+    drawConfluentDrawingCross(confGraph);
+    // });
 }
 
 
 function drawConfluentDrawingCross(graph) {
+    console.log(svgConfCross);
     // draw the routing graph
 
     // creating the mapping between index and id in graph.nodes
     var mapping = {};
-    graph.nodes.forEach (function (node, i) {
+    graph.nodes.forEach(function (node, i) {
         mapping[node.id] = i;
     });
 
@@ -43,7 +56,7 @@ function drawConfluentDrawingCross(graph) {
         .data(graph.nodes)
         .enter().append("circle")
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
-        .attr("r", function (d) {return d.isRouting ? 0.5 : 4.5})
+        .attr("r", function (d) { return d.isRouting ? 0.5 : 4.5 })
         .call(d3.drag()
             .on("start", dragstartedConfCross)
             .on("drag", draggedConfCross)

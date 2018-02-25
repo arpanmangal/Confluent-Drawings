@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {"name": "s"},
+    {"name": "t"},
+    {"name": "u"},
+    {"name": "v"},
+    {"name": "w"},
+    {"name": "y"},
+    {"name": "x"},
+    {"name": "z"}
+  ],
+  "links": [
+    {"source": "u", "target": "x"},
+    {"source": "u", "target": "y"},
+    {"source": "u", "target": "z"},
+    {"source": "u", "target": "v"},
+    {"source": "u", "target": "w"},
+    {"source": "s", "target": "x"},
+    {"source": "s", "target": "y"},
+    {"source": "s", "target": "z"},
+    {"source": "s", "target": "w"},
+    {"source": "t", "target": "x"},
+    {"source": "t", "target": "y"},
+    {"source": "t", "target": "z"},
+    {"source": "t", "target": "w"},
+    {"source": "x", "target": "z"},
+    {"source": "y", "target": "w"},
+    {"source": "v", "target": "w"},
+    
+    {"source": "x", "target": "u"},
+    {"source": "y", "target": "u"},
+    {"source": "z", "target": "u"},
+    {"source": "v", "target": "u"},
+    {"source": "w", "target": "u"},
+    {"source": "x", "target": "s"},
+    {"source": "y", "target": "s"},
+    {"source": "z", "target": "s"},
+    {"source": "w", "target": "s"},
+    {"source": "x", "target": "t"},
+    {"source": "y", "target": "t"},
+    {"source": "z", "target": "t"},
+    {"source": "w", "target": "t"},
+    {"source": "z", "target": "x"},
+    {"source": "w", "target": "y"},
+    {"source": "w", "target": "v"}
+  ]
+}

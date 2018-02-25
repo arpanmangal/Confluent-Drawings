@@ -4,9 +4,9 @@ var moduleData = {
     "PGlinks": null
 };
 
-(function (pathToJsonFile, powergraphgridlayout) {
+function getPGlayout(pathToJsonFile, powergraphgridlayout) {
     var width = 700, height = 350;
-    var color = d3.scale.category20();
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
     var makeEdgeBetween;
     var colans = cola;
     var graphfile = pathToJsonFile;//"graphdata/n7e23.json";
@@ -30,7 +30,7 @@ var moduleData = {
             zoom.translate([tx, ty]).scale(s);
             redraw(true);
         };
-        var zoom = d3.behavior.zoom();
+        var zoom = d3.zoom();
         zoomBox.call(zoom.on("zoom", redraw)).on("dblclick.zoom", vis.zoomToFit);
         return vis;
     }
@@ -230,9 +230,8 @@ var moduleData = {
 
     // console.log(powerGraph.groups);
     // function getGroupts
-})("graphdata/n7e23.json", powergraphgridlayout || (powergraphgridlayout = {}));
+}
+// ("graphdata/n7e23.json", powergraphgridlayout || (powergraphgridlayout = {}));
 //# sourceMappingURL=powergraphgridlayout.js.map
 console.log('hi');
-setTimeout(() => {
-    console.log(moduleData);
-}, 3000);
+
