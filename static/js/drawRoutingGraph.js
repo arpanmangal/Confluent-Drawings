@@ -18,15 +18,7 @@ function setUpSVG_routingGraph() {
 }
 
 function genRoutingGraph(graph) {
-    // d3.json(pathToJsonFile, function (error, graph) {
-    //     if (error) throw error;
 
-    //     // Get the routing graph from the module data
-    //     var routingGraph = graphToRoutingGraph(graph)
-    //     drawRoutingGraph (routingGraph);
-    // });
-
-    console.log(graph);
     // set Up SVG
     setUpSVG_routingGraph();
     // Get the routing graph from the module data

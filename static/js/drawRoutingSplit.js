@@ -17,17 +17,12 @@ function setUp_svgRouteSplit() {
 }
 
 function genRoutingGraphSplit(graph) {
-    // d3.json(pathToJsonFile, function (error, graph) {
-    //     if (error) throw error;
-
     // set up the svg
     setUp_svgRouteSplit();
 
-    // graphToRoutingGraphSplit (graph, null);
     // Get the routing graph from the module data
     var routingGraphSplit = graphToRoutingGraphSplit(graph);
     drawRoutingGraphSplit(routingGraphSplit);
-    // });
 }
 
 function graphToRoutingGraphSplit2(graph, cb) {

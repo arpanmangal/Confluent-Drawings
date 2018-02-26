@@ -1,40 +1,34 @@
 // JS file containing code for generating confluent drawings without removing the crossing links
 
-var svgConfCross,
-    widthConfCross,
-    heightConfCross,
-    simulationConfCross;
+var svgConf,
+    widthConf,
+    heightConf,
+    simulationConf;
 
-function setUpSVG_confDrawCross() {
-    svgConfCross = d3.select("#ConfDrawingCross");
-        widthConfCross = +svgConfCross.attr("width");
-        heightConfCross = +svgConfCross.attr("height");
+function setUp_svgConf() {
 
-    simulationConfCross = d3.forceSimulation()
+    svgConf = d3.select("#ConfDrawing");
+    widthConf = +svgConf.attr("width");
+    heightConf = +svgConf.attr("height");
+
+    simulationConf = d3.forceSimulation()
         .force("link", d3.forceLink().id(function (d) { return d.id; }))
         .force("charge", d3.forceManyBody())
-        .force("center", d3.forceCenter(widthConfCross / 2, heightConfCross / 2));
+        .force("center", d3.forceCenter(widthConf / 2, heightConf / 2));
 }
 
-function genConfluentDrawingCross(graph) {
-    // d3.json(pathToJsonFile, function (error, graph) {
-    // if (error) throw error;
-
-    console.log('hello conf draw');
-    console.log(graph);
-    // load svg
-    setUpSVG_confDrawCross();
+function genConfluentDrawing(graph) {
+    // set up the svg
+    setUp_svgConf();
 
     // Get the routing graph from the module data
-    var routingGraph = graphToRoutingGraph(graph);
-    var confGraph = routingToConfGraph(routingGraph);
-    drawConfluentDrawingCross(confGraph);
-    // });
+    var routingGraphSplit = graphToRoutingGraphSplit(graph);
+
+    var confGraph = routingToConfGraph(routingGraphSplit);
+    drawConfluentDrawing(confGraph);
 }
 
-
-function drawConfluentDrawingCross(graph) {
-    console.log(svgConfCross);
+function drawConfluentDrawing(graph) {
     // draw the routing graph
 
     // creating the mapping between index and id in graph.nodes
@@ -43,14 +37,14 @@ function drawConfluentDrawingCross(graph) {
         mapping[node.id] = i;
     });
 
-    var link = svgConfCross.append("g")
+    var link = svgConf.append("g")
         .attr("class", "invisible")
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
 
 
-    var node = svgConfCross.append("g")
+    var node = svgConf.append("g")
         .attr("class", "nodes")
         .selectAll("circle")
         .data(graph.nodes)
@@ -58,14 +52,14 @@ function drawConfluentDrawingCross(graph) {
         .attr("fill", function (d) { return d.isRouting ? "#7EC0EE" : "#333333" })
         .attr("r", function (d) { return d.isRouting ? 0.5 : 4.5 })
         .call(d3.drag()
-            .on("start", dragstartedConfCross)
-            .on("drag", draggedConfCross)
-            .on("end", dragendedConfCross));
+            .on("start", dragstartedConf)
+            .on("drag", draggedConf)
+            .on("end", dragendedConf));
 
     var curvedLine = d3.line()
         .curve(d3.curveBasis);
 
-    var curvedLink = svgConfCross.append("g")
+    var curvedLink = svgConf.append("g")
         .attr("class", "confs")
         .selectAll("path")
         .data(graph.confLinks)
@@ -74,11 +68,11 @@ function drawConfluentDrawingCross(graph) {
     node.append("title")
         .text(function (d) { return d.id; });
 
-    simulationConfCross
+    simulationConf
         .nodes(graph.nodes)
         .on("tick", ticked);
 
-    simulationConfCross.force("link")
+    simulationConf.force("link")
         .links(graph.links);
 
     function ticked() {
@@ -103,19 +97,19 @@ function drawConfluentDrawingCross(graph) {
     }
 }
 
-function dragstartedConfCross(d) {
-    if (!d3.event.active) simulationConfCross.alphaTarget(0.3).restart();
+function dragstartedConf(d) {
+    if (!d3.event.active) simulationConf.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 
-function draggedConfCross(d) {
+function draggedConf(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 
-function dragendedConfCross(d) {
-    if (!d3.event.active) simulationConfCross.alphaTarget(0);
+function dragendedConf(d) {
+    if (!d3.event.active) simulationConf.alphaTarget(0);
     d.fx = null;
     d.fy = null;
 }

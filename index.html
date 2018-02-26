@@ -128,12 +128,12 @@
 
     <!-- JS for confluent drawings -->
     <script src="/js/nodeLink.js"></script>
-    <script src="/js/routing.js"></script>
-    <script src="/js/confluentDrawing.js"></script>
-    <script src="/js/routingGraph.js"></script>
-    <script src="/js/routingSplit.js"></script>
-    <script src="/js/confDrawingCross.js"></script>
-    <script src="/js/confDrawing.js"></script>
+    <script src="/js/PGtoRoutingGraph.js"></script>
+    <script src="/js/routingToConfGraph.js"></script>
+    <script src="/js/drawRoutingGraph.js"></script>
+    <script src="/js/drawRoutingSplit.js"></script>
+    <script src="/js/drawConfDrawingCross.js"></script>
+    <script src="/js/drawConfDrawing.js"></script>
     <script>
         d3.json("/data/indexPage.json", function (error, graph) {
             var dataCopy1 = $.extend(true, {}, graph);
