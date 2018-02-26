@@ -7,8 +7,8 @@
     </style>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="/lib/jquery-1.10.2.min.js"></script>
     <script src="/lib/d3.v4.min.js"></script>
-    <!-- <script src="/lib/d3.v3.js"></script> -->
 </head>
 
 <body>
@@ -39,9 +39,8 @@
                 </figure>
             </li>
             <li value=2>
-                From the given nodes and links we construct a Power Graph (PG) Decomposition. This decomposition could be done using algorithms
-                like the beam-search algorithm. We currently assume that this Power Graph Decomposition is given to us and
-                build on top of it.
+                From the given nodes and links we construct a Power Graph (PG) Decomposition. This decomposition is done with the help of the <em><b>powerGraphGroups()</b></em> function of <em>cola.js</em>,
+                which gives a Power Graph from the Node-Link Diagram.
             </li>
             <li style="list-style-type: none; text-align: center">
                 <figure>
@@ -79,9 +78,10 @@
                 <sub>in</sub> and
                 <em>r</em>
                 <sub>out</sub>. This gives another routing graph as below.
-                <br /> (The graph
+                <br /> 
+                <em style="font-size: small">(The graph
                 <em>may</em> appear very different than before at first sight. It is due to d3 laying out the graph in a rotated
-                manner different from above. Just play around with the nodes till it regains the right order.)
+                manner different from above. Just play around with the nodes till it regains the right order.)</em>
             </li>
             <li style="list-style-type: none; text-align: center">
                 <figure>
@@ -102,38 +102,51 @@
             </li>
         </ol>
         <br />
-        <p>
-            Please look through some more examples here:
-            <ul>
-                <li>
-                    <a href="/example1">Example 1</a>
-                </li>
-                <li>
-                    <a href="/example2">Example 2</a>
-                </li>
-                <li>
-                    <a href="/example3">Example 3</a>
-                </li>
-            </ul>
-        </p>
+        <div style="text-align: left; width: 20%">
+            <h3 style="color: #006400"> Examples </h3>
+            <p>Choose any graph from below: </p>
+            <form action="/example" style="text-align: center">
+                <select name="graph">
+                    <option value="Graph1">Graph1</option>
+                    <option value="Graph2">Graph2</option>
+                    <option value="Graph3">Graph3</option>
+                    <option value="Graph4">Graph4</option>
+                </select>
+                <br>
+                <br>
+                <input type="submit">
+            </form>
+        </div>
     </div>
+
+    <svg width="460" height="250" id="node-link-graph"></svg>
 
     <!-- Load our JS -->
     <script src="/js/graph.js"></script>
     <script src="/js/dijkstra.js"></script>
 
     <!-- JS for confluent drawings -->
+    <script src="/js/nodeLink.js"></script>
     <script src="/js/routing.js"></script>
     <script src="/js/confluentDrawing.js"></script>
     <script src="/js/routingGraph.js"></script>
     <script src="/js/routingSplit.js"></script>
     <script src="/js/confDrawingCross.js"></script>
     <script src="/js/confDrawing.js"></script>
-    <!-- <script> genRoutingGraph("data/PG.json"); </script> -->
-    <script> genRoutingGraphSplit("data/PG1.json"); </script>
-    <script> genConfluentDrawingCross("data/PG1.json"); </script>
-    <script> genConfluentDrawing("data/PG1.json"); </script>
+    <script>
+        d3.json("/data/indexPage.json", function (error, graph) {
+            var dataCopy1 = $.extend(true, {}, graph);
+            var dataCopy2 = $.extend(true, {}, graph);
+            var dataCopy3 = $.extend(true, {}, graph);
+            var dataCopy4 = $.extend(true, {}, graph);
 
+            genRoutingGraph(dataCopy1);
+            genConfluentDrawingCross(dataCopy2);
+            genRoutingGraphSplit(dataCopy3);
+            genConfluentDrawing(dataCopy4);
+
+        });
+    </script>
 </body>
 
 </html>

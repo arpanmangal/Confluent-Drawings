@@ -9,7 +9,10 @@ app.use(express.static('static'));
 
 // Defining routes
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index2.html');
+    res.sendFile(__dirname + '/index.html');
+});
+app.get('/example', function (req, res) {
+    res.sendFile(__dirname + '/example.html');
 });
 app.get('/example1', function (req, res) {
     res.sendFile(__dirname + '/examples/example1.html');

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Confluent Graphs </title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </style>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="/lib/jquery-1.10.2.min.js"></script>
+    <script src="/lib/d3.v3.js"></script>
+    <script src="/lib/cola.v4.js"></script>
+</head>
+
+<body>
+    <script> 
+        var graphJsonFile;
+        var qs = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length).substr(7);
+
+        // Error Checking
+        if (qs.substr(0, 5) !== "Graph") {
+            alert("Invalid Request for " + qs);
+        }
+        var graphCode = parseInt(qs.substr(5));
+
+        if (isNaN(graphCode) || graphCode < 1 || graphCode > 4) {
+            alert("Invalid Graph Code");
+        }
+        graphJsonFile = qs;
+    </script>
+    <h1 style="text-align: center; color:brown;"> Confluent Graphs </h1>
+    <div style="width:1000px; margin:0 auto;">
+        <p>
+            Consider the below Node-Link Graph:
+            <br />
+            <em style="font-size: small">(The graphs will appear after a delay.)</em>
+            <figure style="text-align: center">
+                <svg width="460" height="250" id="node-link-graph"></svg>
+                <figcaption>A Node-Link Graph</figcaption>
+            </figure>
+            <br />
+            <br />
+            <ol>
+                <li>We first generate the routing graph of this Node-Link Graph. This will as follows:
+                    <br />
+                    <em style="font-size: small">(We first convert the Node-Link Graph into a PowerGraph with the help of a function provided by cola.js . This powergraph is then converted to the routing graph.
+                    This may not be the minimilistic routing graph depending on the cola.js implemnentation of PG decomposition.)</em>
+                    <figure>
+                        <!-- routing graph -->
+                        <svg width="460" height="300" id="routingGraph"></svg>
+                        <figcaption>Routing Graph</figcaption>
+                    </figure>
+                </li>
+                <br />
+                <li>We then join each actual edge with a B-Spline using the routing nodes as control points. This will give us
+                    a confluent graph having crossing links:
+                    <br />
+                    <figure>
+                        <!-- ConfluentDrawing -->
+                        <svg width="460" height="300" id="ConfDrawingCross"></svg>
+                        <figcaption>Confluent Graph with crossing artifacts</figcaption>
+                    </figure>
+                </li>
+                <br />
+                <li>
+                    To remove the crossing links we divide the appropriate nodes. This results in the following:
+                    <br />
+                    <em style="font-size: small">(Again, this may not be a perfect routing graph depending on the cola.js PG decomposition of original node-link graph.)</em>
+                    <figure>
+                        <!-- Splitted routing Graph -->
+                        <svg width="460" height="300" id="routingGraphSplit"></svg>
+                        <figcaption>Routing Graph after splitting</figcaption>
+                    </figure>
+                </li>
+                <br />
+                <li>
+                    Making B-Splines on this results in the below confluent graph. The curve can be adjusted to make it better.
+                    <br />
+                    <figure>
+                        <!-- Final Confluent Drawing -->
+                        <svg width="460" height="300" id="ConfDrawing"></svg>
+                        <figcaption>Confluent Graph with Node split</figcaption>
+                    </figure>
+                </li>
+                <br />
+            </ol>
+        </p>
+        <br />
+        <div style="text-align: left; width: 20%">
+            <h3 style="color: #006400"> Other Examples </h3>
+            <p>Choose any graph from below: </p>
+            <form action="/example" style="text-align: center">
+                <select name="graph">
+                    <option value="Graph1">Graph1</option>
+                    <option value="Graph2">Graph2</option>
+                    <option value="Graph3">Graph3</option>
+                    <option value="Graph4">Graph4</option>
+                </select>
+                <br>
+                <br>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Load our JS -->
+
+    <!-- JS for Power Graph Layout -->
+    <script src="/js/genPGlayout.js"></script>
+    <script>
+        // PG decomposition
+        getPGlayout("/data/" + graphJsonFile + ".json", {});
+    </script>
+
+    <!-- JS for Dijkstra -->
+    <script src="/js/graph.js"></script>
+    <script src="/js/dijkstra.js"></script>
+
+    <!-- JS for confluent drawings -->
+    <script src="/js/nodeLink.js"></script>
+    <script src="/js/routing.js"></script>
+    <script src="/js/confluentDrawing.js"></script>
+    <script src="/js/routingGraph.js"></script>
+    <script src="/js/routingSplit.js"></script>
+    <script src="/js/confDrawingCross.js"></script>
+    <script src="/js/confDrawing.js"></script>
+
+    <script>
+        // Wait for PG decomposition
+        setTimeout(() => {
+
+            // Replace d3.v3 with d3.v4 (Compatibility Issues)
+            var script = document.createElement('script');
+            script.src = "/lib/d3.v4.min.js";
+            var head = document.getElementsByTagName('head')[0];
+
+            setTimeout(() => {
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                head.removeChild(head.childNodes[head.childNodes.length - 1]);
+                setTimeout(() => {
+                    head.appendChild(script);
+
+                    setTimeout(() => {
+
+                        var dataCopy1 = $.extend(true, {}, moduleData);
+                        var dataCopy2 = $.extend(true, {}, moduleData);
+                        var dataCopy3 = $.extend(true, {}, moduleData);
+                        var dataCopy4 = $.extend(true, {}, moduleData);
+                        var dataCopy5 = $.extend(true, {}, moduleData);
+                   
+                        drawNodeLink(dataCopy5);
+                        genRoutingGraph(dataCopy1);
+                        genConfluentDrawingCross(dataCopy2);
+                        genRoutingGraphSplit(dataCopy3);
+                        genConfluentDrawing(dataCopy4);
+                    }, 500);
+
+                }, 1000);
+
+            }, 500);
+
+        }, 1500);
+    </script>
+
+</body>
+
+</html>
